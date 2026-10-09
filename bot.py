@@ -275,6 +275,12 @@ def status_label(s):
     else:                                     return "❓ Unknown"
 
 
+def clean_md(text: str) -> str:
+    """Remove markdown characters that break V1 parsing."""
+    if not text: return ""
+    return str(text).replace("*", "").replace("_", "").replace("`", "").replace("[", "").replace("]", "")
+
+
 def build_member(user):
     return {
         "user_id":    user.id,
@@ -545,7 +551,9 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     name = ""
     if authorized:
         me   = await c.get_me()
-        name = f" • Scraping as: *{me.first_name}* (@{me.username or me.id})"
+        safe_name = str(me.first_name or "").replace("*", "").replace("_", "").replace("`", "")
+        safe_user = str(me.username or me.id).replace("*", "").replace("_", "").replace("`", "")
+        name = f" • Scraping as: *{safe_name}* (@{safe_user})"
 
     sys_warn = "\n\n🔴 *System is in maintenance mode.*" if state["kill_switch"] and is_admin(uid) else ""
 
@@ -596,6 +604,7 @@ async def show_admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     approved = sum(1 for u in users.values() if u.get("status") == "approved" and not u.get("banned"))
     banned   = sum(1 for u in users.values() if u.get("banned"))
     sys_icon = "🔴 KILLED" if state["kill_switch"] else "✅ ACTIVE"
+    safe_session = clean_md(state['session_name'])
 
     text = (
         f"🛡️ *Admin Control Panel*\n\n"
@@ -605,7 +614,7 @@ async def show_admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"  ✅ Approved: *{approved}*\n"
         f"  🚫 Banned:   *{banned}*\n"
         f"  Total:       *{len(users)}*\n\n"
-        f"🛠️ Scraping account: *{state['session_name']}*"
+        f"🛠️ Scraping account: *{safe_session}*"
     )
 
     if update.callback_query:
@@ -769,7 +778,9 @@ async def cb_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         c = client()
         if c.is_connected() and await c.is_user_authorized():
             me = await c.get_me()
-            me_name = f"{me.first_name or ''} (@{me.username or me.id})"
+            safe_name = clean_md(me.first_name)
+            safe_user = clean_md(me.username or me.id)
+            me_name = f"{safe_name} (@{safe_user})"
         text = (
             f"👤 *Account Manager*\n\n"
             f"✅ *Active:* {me_name}\n💾 *Session:* `{current}`\n\n"
@@ -880,7 +891,8 @@ async def recv_code(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         me = await context.user_data["login_client"].get_me()
         context.user_data["login_me"] = me
-        await msg.edit_text(f"✅ *Logged in as {me.first_name}!*\n\n*Step 3:* Give this session a name:\n_(e.g. `account1`, `client`) or send `skip`_",
+        safe_name = clean_md(me.first_name)
+        await msg.edit_text(f"✅ *Logged in as {safe_name}!*\n\n*Step 3:* Give this session a name:\n_(e.g. `account1`, `client`) or send `skip`_",
                             parse_mode=ParseMode.MARKDOWN, reply_markup=kb_cancel())
         return WAIT_SESSION_NAME
     except errors.SessionPasswordNeededError:
@@ -908,7 +920,8 @@ async def recv_2fa(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.user_data["login_client"].sign_in(password=password)
         me = await context.user_data["login_client"].get_me()
         context.user_data["login_me"] = me
-        await msg.edit_text(f"✅ *Password accepted! Logged in as {me.first_name}.*\n\nGive this session a name _(or `skip`)_:",
+        safe_name = clean_md(me.first_name)
+        await msg.edit_text(f"✅ *Password accepted! Logged in as {safe_name}.*\n\nGive this session a name _(or `skip`)_:",
                             parse_mode=ParseMode.MARKDOWN, reply_markup=kb_cancel())
         return WAIT_SESSION_NAME
     except errors.PasswordHashInvalidError:
@@ -934,8 +947,10 @@ async def recv_session_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await switch_session(final)
         context.user_data.clear()
         uid = update.effective_user.id
+        safe_name = clean_md(me.first_name)
+        safe_user = clean_md(me.username or "N/A")
         await msg.edit_text(
-            f"🎉 *Account saved & active!*\n\n👤 *{me.first_name}*  @{me.username or 'N/A'}\n💾 Session: `{final}`\n\nReady to scrape!",
+            f"🎉 *Account saved & active!*\n\n👤 *{safe_name}*  @{safe_user}\n💾 Session: `{final}`\n\nReady to scrape!",
             parse_mode=ParseMode.MARKDOWN, reply_markup=kb_main(uid),
         )
     except Exception as ex:
