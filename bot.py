@@ -38,7 +38,7 @@ from telethon.tl.types import (
 )
 
 # ── Conversation States ────────────────────────────────────────────────────────
-WAIT_SOURCE, WAIT_FILTER, WAIT_MAX, WAIT_TARGET, WAIT_ADD_LIMIT = range(5)
+WAIT_SOURCE, WAIT_FILTER, WAIT_MAX, WAIT_TARGET, WAIT_ADD_MODE, WAIT_ADD_LIMIT = range(6)
 WAIT_PHONE, WAIT_CODE, WAIT_2FA, WAIT_SESSION_NAME = range(10, 14)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
@@ -82,6 +82,18 @@ async def switch_session(name: str):
 
 def list_sessions() -> list[str]:
     return [f.stem for f in sorted(BASE_DIR.glob("*.session"))]
+
+async def get_all_clients() -> list[TelegramClient]:
+    """Connect and return all authorized sessions for parallel operations."""
+    clients = []
+    for s in list_sessions():
+        c = TelegramClient(str(BASE_DIR / s), API_ID, API_HASH)
+        await c.connect()
+        if await c.is_user_authorized():
+            clients.append(c)
+        else:
+            await c.disconnect()
+    return clients
 
 # ── Admin / User System ────────────────────────────────────────────────────────
 
@@ -316,6 +328,13 @@ def kb_max() -> InlineKeyboardMarkup:
         [InlineKeyboardButton("❌ Cancel", callback_data="cancel")],
     ])
 
+def kb_add_mode(num_accounts: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton("👤 Use Current Account (~50 adds)", callback_data="addm_single")],
+        [InlineKeyboardButton(f"🔄 Use ALL {num_accounts} Accounts (~{num_accounts*50} adds)", callback_data="addm_multi")],
+        [InlineKeyboardButton("❌ Cancel", callback_data="cancel")],
+    ])
+
 def kb_add_limit(total: int) -> InlineKeyboardMarkup:
     opts = [10, 20, 50]
     rows = [[InlineKeyboardButton(str(n), callback_data=f"al_{n}") for n in opts if n <= total]]
@@ -463,42 +482,48 @@ async def try_import_contact(c: TelegramClient, m: dict) -> bool:
     except Exception:
         return False
 
-async def do_add(target_entity, members: list, add_limit: int, prog_msg, context, chat_id) -> dict:
+async def do_add(target_entity, members: list, add_limit: int, prog_msg, context, chat_id, use_all_accounts: bool) -> dict:
     to_add = members[:add_limit] if add_limit > 0 else members
     total  = len(to_add)
-    c      = client()
-
-    # Detect group type properly
-    is_channel_or_super = isinstance(target_entity, Channel)
+    
+    spawned_clients = []
+    if use_all_accounts:
+        spawned_clients = await get_all_clients()
+        active_clients = spawned_clients.copy()
+    else:
+        c = client()
+        if not c.is_connected(): await c.connect()
+        active_clients = [c]
 
     stats = {"added": 0, "privacy": 0, "already_in": 0, "deactivated": 0, "contact_needed": 0, "other": 0}
+    if not active_clients:
+        stats["status"] = "no_clients"
+        return stats
+
+    is_channel_or_super = isinstance(target_entity, Channel)
     last_edit = 0
+    client_idx = 0
 
-    for i, m in enumerate(to_add):
-        uid      = m["user_id"]
-        username = m.get("username") or str(uid)
-
-        # Get input entity (more reliable than full entity for adds)
-        try:
-            input_user = await c.get_input_entity(uid)
-        except Exception:
-            stats["other"] += 1
-            continue
-
-        success = False
-        for attempt in range(2):  # 2 attempts (2nd after contact import)
-            try:
-                if is_channel_or_super:
-                    await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
-                else:
-                    await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
-                stats["added"] += 1
-                success = True
+    try:
+        for i, m in enumerate(to_add):
+            if not active_clients:
+                stats["status"] = "all_flooded"
                 break
 
-            except errors.FloodWaitError as e:
-                await asyncio.sleep(e.seconds + 2)
-                # retry same attempt after wait
+            c = active_clients[client_idx]
+            uid      = m["user_id"]
+            username = m.get("username") or str(uid)
+
+            # Get input entity
+            try:
+                input_user = await c.get_input_entity(uid)
+            except Exception:
+                stats["other"] += 1
+                if active_clients: client_idx = (client_idx + 1) % len(active_clients)
+                continue
+
+            success = False
+            for attempt in range(2):
                 try:
                     if is_channel_or_super:
                         await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
@@ -507,86 +532,74 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
                     stats["added"] += 1
                     success = True
                     break
+                except errors.FloodWaitError as e:
+                    await asyncio.sleep(e.seconds + 2)
+                    try:
+                        if is_channel_or_super:
+                            await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
+                        else:
+                            await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
+                        stats["added"] += 1
+                        success = True
+                    except Exception: pass
+                    break
+                except errors.PeerFloodError:
+                    active_clients.pop(client_idx)
+                    break
+                except errors.ChatAdminRequiredError:
+                    active_clients.pop(client_idx)
+                    break
+                except (errors.UserNotMutualContactError,):
+                    if attempt == 0 and m.get("phone"):
+                        imported = await try_import_contact(c, m)
+                        if imported: continue
+                    stats["contact_needed"] += 1
+                    break
+                except errors.UserPrivacyRestrictedError:
+                    stats["privacy"] += 1; break
+                except errors.UserAlreadyParticipantError:
+                    stats["already_in"] += 1; break
+                except errors.InputUserDeactivatedError:
+                    stats["deactivated"] += 1; break
+                except (errors.UserBannedInChannelError, errors.UserKickedError):
+                    stats["other"] += 1; break
                 except Exception:
-                    pass
-                break
+                    stats["other"] += 1; break
 
-            except errors.PeerFloodError:
-                # Account is spam-restricted — stop entirely
+            if active_clients:
+                if success or stats.get("contact_needed") or stats.get("privacy") or stats.get("already_in") or stats.get("deactivated") or stats.get("other"):
+                    client_idx = (client_idx + 1) % len(active_clients)
+                else:
+                    client_idx = client_idx % len(active_clients)
+
+            now = time.time()
+            if now - last_edit >= 3:
+                done = i + 1
                 try:
                     await context.bot.edit_message_text(
                         chat_id=chat_id, message_id=prog_msg.message_id,
                         parse_mode=ParseMode.HTML,
                         text=(
-                            f"⛔ <b>Telegram Rate Limit Hit!</b>\n\n"
-                            f"Added <b>{stats['added']}</b> members before being rate-limited.\n\n"
-                            f"⏳ Your account needs to rest. <b>Wait 24 hours</b> and try again.\n"
-                            f"<i>(This is a Telegram server restriction — not a bug)</i>"
+                            f"⏳ <b>Adding members…</b>\n\n"
+                            f"<code>{pbar(done, total)}</code>\n"
+                            f"✅ Added: <b>{stats['added']}</b>  |  "
+                            f"⏭ Skipped: <b>{done - stats['added']}</b>  |  "
+                            f"📊 Total: <b>{total}</b>\n"
+                            f"🔄 Accounts active: <b>{len(active_clients)}</b>\n\n"
+                            f"<i>Hang tight — this takes a moment!</i>"
                         ),
-                        reply_markup=kb_menu(),
                     )
+                    last_edit = now
                 except Exception: pass
-                stats["status"] = "peer_flood"
-                return stats
 
-            except errors.ChatAdminRequiredError:
-                try:
-                    await context.bot.edit_message_text(
-                        chat_id=chat_id, message_id=prog_msg.message_id,
-                        parse_mode=ParseMode.HTML,
-                        text=(
-                            f"❌ <b>Admin rights required!</b>\n\n"
-                            f"You need to be an <b>admin</b> in the target group to add members.\n"
-                            f"Ask the group owner to make you admin first."
-                        ),
-                        reply_markup=kb_menu(),
-                    )
-                except Exception: pass
-                stats["status"] = "no_admin"
-                return stats
+            await asyncio.sleep(2)
+    finally:
+        main_c = client()
+        for c in spawned_clients:
+            if c != main_c and c.is_connected():
+                await c.disconnect()
 
-            except (errors.UserNotMutualContactError,):
-                # Try contact import fallback on first attempt
-                if attempt == 0 and m.get("phone"):
-                    imported = await try_import_contact(c, m)
-                    if imported:
-                        continue  # retry add after import
-                stats["contact_needed"] += 1
-                break
-
-            except errors.UserPrivacyRestrictedError:
-                stats["privacy"] += 1; break
-            except errors.UserAlreadyParticipantError:
-                stats["already_in"] += 1; break
-            except errors.InputUserDeactivatedError:
-                stats["deactivated"] += 1; break
-            except (errors.UserBannedInChannelError, errors.UserKickedError):
-                stats["other"] += 1; break
-            except Exception:
-                stats["other"] += 1; break
-
-        now = time.time()
-        if now - last_edit >= 3:
-            done = i + 1
-            try:
-                await context.bot.edit_message_text(
-                    chat_id=chat_id, message_id=prog_msg.message_id,
-                    parse_mode=ParseMode.HTML,
-                    text=(
-                        f"⏳ <b>Adding members…</b>\n\n"
-                        f"<code>{pbar(done, total)}</code>\n"
-                        f"✅ Added: <b>{stats['added']}</b>  |  "
-                        f"⏭ Skipped: <b>{done - stats['added']}</b>  |  "
-                        f"📊 Total: <b>{total}</b>\n\n"
-                        f"<i>Hang tight — this takes a moment!</i>"
-                    ),
-                )
-                last_edit = now
-            except Exception: pass
-
-        await asyncio.sleep(2)
-
-    stats["status"] = "done"
+    stats["status"] = "done" if not stats.get("status") else stats["status"]
     return stats
 
 
@@ -1203,13 +1216,29 @@ async def recv_target(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     members = context.user_data.get("members", [])
     gtype   = "Supergroup/Channel" if isinstance(entity, Channel) else "Basic Group"
+    num_accounts = len(list_sessions())
+    
     await msg.edit_text(
         f"✅ <b>Target found!</b>\n\n"
         f"📌 <b>{h(title)}</b>  <i>({gtype})</i>\n"
         f"👥 Members ready: <b>{len(members):,}</b>\n\n"
+        f"<b>How do you want to add them?</b>",
+        parse_mode=ParseMode.HTML, reply_markup=kb_add_mode(num_accounts))
+    return WAIT_ADD_MODE
+
+async def recv_add_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not await check_access(update, context): return ConversationHandler.END
+    # This comes from callback data "addm_single" or "addm_multi"
+    context.user_data["add_mode"] = update.callback_query.data
+    
+    members = context.user_data.get("members", [])
+    num_accounts = len(list_sessions())
+    max_safe = min(len(members), 50 if update.callback_query.data == "addm_single" else num_accounts * 50)
+    
+    await update.callback_query.edit_message_text(
         f"⚠️ <b>Telegram limits ~50 adds per day per account.</b>\n\n"
-        f"<b>How many do you want to add right now?</b>",
-        parse_mode=ParseMode.HTML, reply_markup=kb_add_limit(min(len(members), 50)))
+        f"<b>How many members do you want to add right now?</b>",
+        parse_mode=ParseMode.HTML, reply_markup=kb_add_limit(max_safe))
     return WAIT_ADD_LIMIT
 
 async def recv_add_limit(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1228,6 +1257,7 @@ async def _run_add_limit(update: Update, context: ContextTypes.DEFAULT_TYPE, val
     te      = context.user_data["target_entity"]
     tt      = context.user_data["target_title"]
     label   = str(val) if val > 0 else f"all {len(members):,}"
+    use_all = context.user_data.get("add_mode") == "addm_multi"
 
     init = (
         f"🚀 <b>Adding members…</b>\n\n"
@@ -1239,11 +1269,22 @@ async def _run_add_limit(update: Update, context: ContextTypes.DEFAULT_TYPE, val
             if update.callback_query
             else await update.message.reply_text(init, parse_mode=ParseMode.HTML))
 
-    stats = await do_add(te, members, val, prog, context, chat_id)
+    stats = await do_add(te, members, val, prog, context, chat_id, use_all)
     log_activity(uid, update.effective_user.username or "",
                  f"Added {stats.get('added',0)} to '{tt}'")
 
-    if stats.get("status") in ("peer_flood", "no_admin"):
+    if stats.get("status") in ("peer_flood", "no_admin", "all_flooded"):
+        reason = ""
+        if stats.get("status") == "all_flooded": reason = "All accounts hit rate limits or lack admin rights."
+        elif stats.get("status") == "no_admin": reason = "Account lacks admin rights."
+        else: reason = "Telegram rate limit hit."
+        
+        await context.bot.edit_message_text(
+            chat_id=chat_id, message_id=prog.message_id,
+            parse_mode=ParseMode.HTML,
+            text=(f"⛔ <b>Adding Stopped</b>\n\n{reason}\n\nAdded <b>{stats.get('added', 0)}</b> members before stopping."),
+            reply_markup=kb_menu()
+        )
         return ConversationHandler.END
 
     skipped = sum(v for k,v in stats.items() if k not in ("added","status"))
@@ -1306,6 +1347,8 @@ def main():
             WAIT_MAX:          [MessageHandler(filters.TEXT & ~filters.COMMAND, recv_max),
                                  CallbackQueryHandler(cb_handler, pattern="^(max_|cancel)")],
             WAIT_TARGET:       [MessageHandler(filters.TEXT & ~filters.COMMAND, recv_target),
+                                 CallbackQueryHandler(cb_handler, pattern="^cancel$")],
+            WAIT_ADD_MODE:     [CallbackQueryHandler(recv_add_mode, pattern="^addm_"),
                                  CallbackQueryHandler(cb_handler, pattern="^cancel$")],
             WAIT_ADD_LIMIT:    [MessageHandler(filters.TEXT & ~filters.COMMAND, recv_add_limit),
                                  CallbackQueryHandler(cb_handler, pattern="^(al_|cancel)")],
