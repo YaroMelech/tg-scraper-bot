@@ -87,12 +87,16 @@ async def get_all_clients() -> list[TelegramClient]:
     """Connect and return all authorized sessions for parallel operations."""
     clients = []
     for s in list_sessions():
-        c = TelegramClient(str(BASE_DIR / s), API_ID, API_HASH)
+        s_path = BASE_DIR / s
+        c = TelegramClient(str(s_path), API_ID, API_HASH)
         await c.connect()
         if await c.is_user_authorized():
             clients.append(c)
         else:
             await c.disconnect()
+            try:
+                s_path.with_suffix(".session").unlink()
+            except Exception: pass
     return clients
 
 # ── Admin / User System ────────────────────────────────────────────────────────
@@ -1221,7 +1225,11 @@ async def recv_target(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     members = context.user_data.get("members", [])
     gtype   = "Supergroup/Channel" if isinstance(entity, Channel) else "Basic Group"
-    num_accounts = len(list_sessions())
+    
+    clients = await get_all_clients()
+    num_accounts = len(clients)
+    for c in clients:
+        if c != client(): await c.disconnect()
     
     await msg.edit_text(
         f"✅ <b>Target found!</b>\n\n"
