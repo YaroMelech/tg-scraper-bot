@@ -734,7 +734,9 @@ async def cb_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     q    = update.callback_query
     data = q.data
     uid  = update.effective_user.id
-    await q.answer()
+    try:
+        await q.answer()
+    except Exception: pass
 
     # ── Admin actions (no access check needed) ──────────────────────────────────
     if data == "admin_panel":
@@ -1080,6 +1082,7 @@ async def recv_session_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def recv_source(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await check_access(update, context): return ConversationHandler.END
+    if not update.message or not update.message.text: return WAIT_SOURCE
     inp = update.message.text.strip()
     msg = await update.message.reply_text("🔍 Looking up group…", parse_mode=ParseMode.HTML)
     try:
@@ -1128,6 +1131,7 @@ async def _run_filter(update: Update, context: ContextTypes.DEFAULT_TYPE, flt: s
 
 async def recv_max(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await check_access(update, context): return ConversationHandler.END
+    if not update.message or not update.message.text: return WAIT_MAX
     try:
         val = int(update.message.text.strip())
     except ValueError:
@@ -1202,6 +1206,7 @@ async def _run_max(update: Update, context: ContextTypes.DEFAULT_TYPE, val: int)
 
 async def recv_target(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await check_access(update, context): return ConversationHandler.END
+    if not update.message or not update.message.text: return WAIT_TARGET
     inp = update.message.text.strip()
     msg = await update.message.reply_text("🔍 Looking up target group…", parse_mode=ParseMode.HTML)
     try:
@@ -1228,6 +1233,8 @@ async def recv_target(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def recv_add_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await check_access(update, context): return ConversationHandler.END
+    try: await update.callback_query.answer()
+    except Exception: pass
     # This comes from callback data "addm_single" or "addm_multi"
     context.user_data["add_mode"] = update.callback_query.data
     
@@ -1243,6 +1250,7 @@ async def recv_add_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def recv_add_limit(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await check_access(update, context): return ConversationHandler.END
+    if not update.message or not update.message.text: return WAIT_ADD_LIMIT
     try:
         val = int(update.message.text.strip())
     except ValueError:
