@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+output/
+*.session
+*.session-journal
+activity.log
+users.json
