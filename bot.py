@@ -86,17 +86,32 @@ def list_sessions() -> list[str]:
 async def get_all_clients() -> list[TelegramClient]:
     """Connect and return all authorized sessions for parallel operations."""
     clients = []
+    main_session = state.get("session_name", "")
+    main_c = client()
+
     for s in list_sessions():
         s_path = BASE_DIR / s
+        
+        # Avoid SQLite locks by reusing the already connected active client
+        if s == main_session and main_c and main_c.is_connected():
+            if await main_c.is_user_authorized():
+                clients.append(main_c)
+            continue
+
         c = TelegramClient(str(s_path), API_ID, API_HASH)
-        await c.connect()
-        if await c.is_user_authorized():
-            clients.append(c)
-        else:
-            await c.disconnect()
-            try:
-                s_path.with_suffix(".session").unlink()
+        try:
+            await c.connect()
+            if await c.is_user_authorized():
+                clients.append(c)
+            else:
+                await c.disconnect()
+                try: s_path.with_suffix(".session").unlink()
+                except Exception: pass
+        except Exception as e:
+            logger.error(f"Failed to connect session {s}: {e}")
+            try: await c.disconnect()
             except Exception: pass
+
     return clients
 
 # ── Admin / User System ────────────────────────────────────────────────────────
