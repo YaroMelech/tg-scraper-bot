@@ -55,9 +55,9 @@ logger = logging.getLogger(__name__)
 
 cfg = configparser.ConfigParser()
 cfg.read(CONFIG_FILE)
-# Force Official Android App API Keys to bypass 3rd-party limits
-API_ID    = 6
-API_HASH  = "eb06d4abfb49dc3eeb1aeb98ae0f581e"
+# Force Official Desktop App API Keys to bypass 3rd-party limits & reCAPTCHA
+API_ID    = 2040
+API_HASH  = "b18441a1ff607e10a989891a5462e627"
 BOT_TOKEN = cfg["telegram"]["bot_token"]
 DEFAULT_SESSION = cfg["telegram"].get("session", "tg_scraper_session")
 
@@ -67,14 +67,14 @@ ADMIN_IDS: set[int] = {int(x.strip()) for x in _raw_admins.split(",") if x.strip
 # ── Global State ───────────────────────────────────────────────────────────────
 
 def create_client(session_path: str) -> TelegramClient:
-    """Emulate Official Android Telegram App to bypass strict spam filters."""
+    """Emulate Official Desktop Telegram App to bypass strict spam filters & reCAPTCHA."""
     return TelegramClient(
         session_path,
         API_ID,
         API_HASH,
-        device_model="Samsung Galaxy S23 Ultra",
-        system_version="Android 13.0",
-        app_version="10.14.5",
+        device_model="Desktop",
+        system_version="Windows 10",
+        app_version="4.8.4",
         lang_code="en",
         system_lang_code="en-US"
     )
