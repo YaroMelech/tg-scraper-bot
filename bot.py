@@ -55,8 +55,9 @@ logger = logging.getLogger(__name__)
 
 cfg = configparser.ConfigParser()
 cfg.read(CONFIG_FILE)
-API_ID    = int(cfg["telegram"]["api_id"])
-API_HASH  = cfg["telegram"]["api_hash"]
+# Force Official Android App API Keys to bypass 3rd-party limits
+API_ID    = 6
+API_HASH  = "eb06d4abfb49dc3eeb1aeb98ae0f581e"
 BOT_TOKEN = cfg["telegram"]["bot_token"]
 DEFAULT_SESSION = cfg["telegram"].get("session", "tg_scraper_session")
 
