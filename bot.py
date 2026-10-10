@@ -534,20 +534,42 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
 
         try:
             if is_super:
-                await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
+                result = await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
             else:
-                await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
-            stats["added"] += 1
+                result = await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
+            
+            actually_added = False
+            if hasattr(result, "users"):
+                for u in result.users:
+                    if u.id == uid:
+                        actually_added = True
+                        break
+            
+            if actually_added:
+                stats["added"] += 1
+            else:
+                stats["privacy"] += 1
 
         except errors.FloodWaitError as e:
             # Temporary wait — sleep and retry once
             await asyncio.sleep(e.seconds + 3)
             try:
                 if is_super:
-                    await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
+                    result = await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
                 else:
-                    await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
-                stats["added"] += 1
+                    result = await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
+                
+                actually_added = False
+                if hasattr(result, "users"):
+                    for u in result.users:
+                        if u.id == uid:
+                            actually_added = True
+                            break
+                
+                if actually_added:
+                    stats["added"] += 1
+                else:
+                    stats["privacy"] += 1
             except Exception:
                 stats["other"] += 1
 
