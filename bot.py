@@ -755,11 +755,16 @@ async def cmd_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
     """Global error handler — logs errors and sends friendly message."""
     logger.error("Exception while handling an update:", exc_info=context.error)
+    import traceback
+    with open("error.txt", "a") as f:
+        f.write(traceback.format_exc())
+        if context.error:
+            f.write(str(context.error) + "\n")
     if isinstance(update, Update) and update.effective_chat:
         try:
             await context.bot.send_message(
                 update.effective_chat.id,
-                "⚠️ <b>Something went wrong.</b>\n\nPlease tap /start to try again.",
+                f"⚠️ <b>Something went wrong.</b>\n\nError: <code>{html.escape(str(context.error))}</code>\n\nPlease tap /start to try again.",
                 parse_mode=ParseMode.HTML,
                 reply_markup=kb_menu(),
             )
