@@ -55,9 +55,8 @@ logger = logging.getLogger(__name__)
 
 cfg = configparser.ConfigParser()
 cfg.read(CONFIG_FILE)
-# Force Official Desktop App API Keys to bypass 3rd-party limits & reCAPTCHA
-API_ID    = 2040
-API_HASH  = "b18441a1ff607e10a989891a5462e627"
+API_ID    = int(cfg["telegram"]["api_id"])
+API_HASH  = cfg["telegram"]["api_hash"]
 BOT_TOKEN = cfg["telegram"]["bot_token"]
 DEFAULT_SESSION = cfg["telegram"].get("session", "tg_scraper_session")
 
@@ -65,22 +64,8 @@ _raw_admins = cfg.get("telegram", "admin_ids", fallback="").strip()
 ADMIN_IDS: set[int] = {int(x.strip()) for x in _raw_admins.split(",") if x.strip().isdigit()}
 
 # ── Global State ───────────────────────────────────────────────────────────────
-
-def create_client(session_path: str) -> TelegramClient:
-    """Emulate Official Desktop Telegram App to bypass strict spam filters & reCAPTCHA."""
-    return TelegramClient(
-        session_path,
-        API_ID,
-        API_HASH,
-        device_model="Desktop",
-        system_version="Windows 10",
-        app_version="4.8.4",
-        lang_code="en",
-        system_lang_code="en-US"
-    )
-
 state = {
-    "client":       create_client(str(BASE_DIR / DEFAULT_SESSION)),
+    "client":       TelegramClient(str(BASE_DIR / DEFAULT_SESSION), API_ID, API_HASH),
     "session_name": DEFAULT_SESSION,
     "kill_switch":  False,
 }
@@ -92,7 +77,7 @@ async def switch_session(name: str):
     c = state["client"]
     if c.is_connected():
         await c.disconnect()
-    state["client"]       = create_client(str(BASE_DIR / name))
+    state["client"]       = TelegramClient(str(BASE_DIR / name), API_ID, API_HASH)
     state["session_name"] = name
     await state["client"].connect()
 
@@ -198,7 +183,40 @@ async def notify_user_banned(context: ContextTypes.DEFAULT_TYPE, uid: int):
     except Exception: pass
 
 async def check_access(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
-    # Admin approval system has been removed for a seamless public UX
+    user     = update.effective_user
+    uid      = user.id
+    username = user.username or ""
+    name     = user.full_name or ""
+    is_new   = register_user(uid, username, name)
+    status   = get_status(uid)
+
+    if state["kill_switch"] and status != "admin":
+        msg = "🔴 <b>System is temporarily offline.</b>\n\nPlease try again later."
+        if update.message:
+            await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
+        elif update.callback_query:
+            await update.callback_query.answer("🔴 System offline", show_alert=True)
+        return False
+
+    if status == "banned":
+        msg = "🚫 <b>Your access has been revoked.</b>\n\nContact the admin."
+        if update.message:
+            await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
+        elif update.callback_query:
+            await update.callback_query.answer("🚫 Access revoked", show_alert=True)
+        return False
+
+    if status == "pending":
+        if is_new: await notify_admins(context, uid, username, name)
+        msg = "⏳ <b>Awaiting admin approval.</b>\n\nYour request was sent. You'll get a message when approved."
+        if not ADMIN_IDS:
+            msg += "\n\n⚠️ <i>No admin configured yet. The bot owner must set admin_ids in config.ini first.</i>"
+        if update.message:
+            await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
+        elif update.callback_query:
+            await update.callback_query.answer("⏳ Awaiting approval", show_alert=True)
+        return False
+
     return True
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -276,6 +294,8 @@ def kb_main(uid: int) -> InlineKeyboardMarkup:
         [InlineKeyboardButton("👤  Accounts",                  callback_data="accounts")],
         [InlineKeyboardButton("ℹ️   Help",                    callback_data="help")],
     ]
+    if is_admin(uid):
+        rows.insert(0, [InlineKeyboardButton("🛡️  Admin Panel", callback_data="admin_panel")])
     return InlineKeyboardMarkup(rows)
 
 def kb_filter() -> InlineKeyboardMarkup:
@@ -509,47 +529,25 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
         except Exception:
             pass
         
-        # Human-like delay after making contact, before adding to group (increased for safety)
-        await asyncio.sleep(random.uniform(5, 10))
+        # Human-like delay after making contact, before adding to group
+        await asyncio.sleep(random.uniform(1, 3))
 
         try:
             if is_super:
-                result = await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
+                await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
             else:
-                result = await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
-            
-            actually_added = False
-            if hasattr(result, "users"):
-                for u in result.users:
-                    if u.id == uid:
-                        actually_added = True
-                        break
-            
-            if actually_added:
-                stats["added"] += 1
-            else:
-                stats["privacy"] += 1
+                await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
+            stats["added"] += 1
 
         except errors.FloodWaitError as e:
             # Temporary wait — sleep and retry once
             await asyncio.sleep(e.seconds + 3)
             try:
                 if is_super:
-                    result = await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
+                    await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
                 else:
-                    result = await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
-                
-                actually_added = False
-                if hasattr(result, "users"):
-                    for u in result.users:
-                        if u.id == uid:
-                            actually_added = True
-                            break
-                
-                if actually_added:
-                    stats["added"] += 1
-                else:
-                    stats["privacy"] += 1
+                    await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
+                stats["added"] += 1
             except Exception:
                 stats["other"] += 1
 
@@ -602,8 +600,8 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
         except (errors.UserBannedInChannelError, errors.UserKickedError): stats["other"] += 1
         except Exception:                          stats["other"]        += 1
 
-        # Massive safety delay between adding members to prevent Telegram ban
-        await asyncio.sleep(random.uniform(15, 30))
+        # Human-like random delay — same speed a person taps through the UI
+        await asyncio.sleep(random.uniform(3, 7))
 
         # Progress update every ~5 seconds
         now = time.time()
@@ -1011,7 +1009,7 @@ async def recv_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
     phone = update.message.text.strip()
     msg   = await update.message.reply_text("📲 Sending code to Telegram…", parse_mode=ParseMode.HTML)
     tmp_s = re.sub(r"[^\w]", "_", phone)
-    tmp_c = create_client(str(BASE_DIR / f"tmp_{tmp_s}"))
+    tmp_c = TelegramClient(str(BASE_DIR / f"tmp_{tmp_s}"), API_ID, API_HASH)
     try:
         await tmp_c.connect()
         r = await tmp_c.send_code_request(phone)
