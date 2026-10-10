@@ -15,6 +15,7 @@ import io
 import json
 import logging
 import re
+import random
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -26,7 +27,7 @@ from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
 from telegram.constants import ParseMode
 from telethon import TelegramClient, errors
 from telethon.tl.functions.channels import GetParticipantsRequest, InviteToChannelRequest
-from telethon.tl.functions.contacts import ImportContactsRequest
+from telethon.tl.functions.contacts import ImportContactsRequest, DeleteContactsRequest
 from telethon.tl.functions.messages import AddChatUserRequest
 from telethon.tl.types import (
     Channel, Chat,
@@ -463,128 +464,188 @@ async def try_import_contact(c: TelegramClient, m: dict) -> bool:
     except Exception:
         return False
 
+async def _cleanup_contacts(c: TelegramClient, user_ids: list):
+    """Delete a list of user IDs from contacts (cleanup after contact trick)."""
+    if not user_ids:
+        return
+    try:
+        input_users = []
+        for uid in user_ids:
+            try:
+                input_users.append(await c.get_input_entity(uid))
+            except Exception:
+                pass
+        if input_users:
+            await c(DeleteContactsRequest(id=input_users))
+    except Exception:
+        pass
+
+
 async def do_add(target_entity, members: list, add_limit: int, prog_msg, context, chat_id) -> dict:
-    to_add = members[:add_limit] if add_limit > 0 else members
-    total  = len(to_add)
-    c      = client()
+    """
+    Add members using the CONTACT TRICK:
+      Phase 1 — Bulk import phone numbers as contacts (same as what the Telegram app does)
+      Phase 2 — Add each member to the group (now treated as contacts, much less restricted)
+      Phase 3 — Bulk delete imported contacts (cleanup)
+    """
+    to_add          = members[:add_limit] if add_limit > 0 else members
+    total           = len(to_add)
+    c               = client()
+    is_super        = isinstance(target_entity, Channel)
+    imported_ids    = []   # track who we imported so we can clean up
+    stats           = {"added": 0, "privacy": 0, "already_in": 0,
+                       "deactivated": 0, "contact_needed": 0, "other": 0}
+    last_edit       = 0
 
-    # Detect group type properly
-    is_channel_or_super = isinstance(target_entity, Channel)
+    # ── Phase 1: Bulk import all available phone numbers as contacts ──────────
+    members_with_phone = [m for m in to_add if m.get("phone")]
+    if members_with_phone:
+        try:
+            await context.bot.edit_message_text(
+                chat_id=chat_id, message_id=prog_msg.message_id,
+                parse_mode=ParseMode.HTML,
+                text=(
+                    f"📇 <b>Preparing contacts…</b>\n\n"
+                    f"Importing <b>{len(members_with_phone)}</b> phone numbers as contacts\n"
+                    f"<i>This makes adding work just like the Telegram app — almost done!</i>"
+                ),
+            )
+        except Exception:
+            pass
 
-    stats = {"added": 0, "privacy": 0, "already_in": 0, "deactivated": 0, "contact_needed": 0, "other": 0}
-    last_edit = 0
+        # Import in batches of 25 (Telegram API limit per request)
+        for batch_start in range(0, len(members_with_phone), 25):
+            batch = members_with_phone[batch_start: batch_start + 25]
+            contacts = [
+                InputPhoneContact(
+                    client_id=m["user_id"],
+                    phone=m["phone"],
+                    first_name=m.get("first_name") or "User",
+                    last_name=m.get("last_name") or "",
+                )
+                for m in batch
+            ]
+            try:
+                result = await c(ImportContactsRequest(contacts))
+                for u in result.users:
+                    imported_ids.append(u.id)
+            except Exception:
+                pass
+            await asyncio.sleep(1)
 
+    # ── Phase 2: Add each member ──────────────────────────────────────────────
     for i, m in enumerate(to_add):
-        uid      = m["user_id"]
-        username = m.get("username") or str(uid)
+        uid = m["user_id"]
 
-        # Get input entity (more reliable than full entity for adds)
         try:
             input_user = await c.get_input_entity(uid)
         except Exception:
             stats["other"] += 1
             continue
 
-        success = False
-        for attempt in range(2):  # 2 attempts (2nd after contact import)
+        try:
+            if is_super:
+                await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
+            else:
+                await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
+            stats["added"] += 1
+
+        except errors.FloodWaitError as e:
+            # Temporary wait — sleep and retry once
+            await asyncio.sleep(e.seconds + 3)
             try:
-                if is_channel_or_super:
+                if is_super:
                     await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
                 else:
                     await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
                 stats["added"] += 1
-                success = True
-                break
-
-            except errors.FloodWaitError as e:
-                await asyncio.sleep(e.seconds + 2)
-                # retry same attempt after wait
-                try:
-                    if is_channel_or_super:
-                        await c(InviteToChannelRequest(channel=target_entity, users=[input_user]))
-                    else:
-                        await c(AddChatUserRequest(chat_id=target_entity.id, user_id=input_user, fwd_limit=10))
-                    stats["added"] += 1
-                    success = True
-                    break
-                except Exception:
-                    pass
-                break
-
-            except errors.PeerFloodError:
-                # Account is spam-restricted — stop entirely
-                try:
-                    await context.bot.edit_message_text(
-                        chat_id=chat_id, message_id=prog_msg.message_id,
-                        parse_mode=ParseMode.HTML,
-                        text=(
-                            f"⛔ <b>Telegram Rate Limit Hit!</b>\n\n"
-                            f"Added <b>{stats['added']}</b> members before being rate-limited.\n\n"
-                            f"⏳ Your account needs to rest. <b>Wait 24 hours</b> and try again.\n"
-                            f"<i>(This is a Telegram server restriction — not a bug)</i>"
-                        ),
-                        reply_markup=kb_menu(),
-                    )
-                except Exception: pass
-                stats["status"] = "peer_flood"
-                return stats
-
-            except errors.ChatAdminRequiredError:
-                try:
-                    await context.bot.edit_message_text(
-                        chat_id=chat_id, message_id=prog_msg.message_id,
-                        parse_mode=ParseMode.HTML,
-                        text=(
-                            f"❌ <b>Admin rights required!</b>\n\n"
-                            f"You need to be an <b>admin</b> in the target group to add members.\n"
-                            f"Ask the group owner to make you admin first."
-                        ),
-                        reply_markup=kb_menu(),
-                    )
-                except Exception: pass
-                stats["status"] = "no_admin"
-                return stats
-
-            except (errors.UserNotMutualContactError,):
-                # Try contact import fallback on first attempt
-                if attempt == 0 and m.get("phone"):
-                    imported = await try_import_contact(c, m)
-                    if imported:
-                        continue  # retry add after import
-                stats["contact_needed"] += 1
-                break
-
-            except errors.UserPrivacyRestrictedError:
-                stats["privacy"] += 1; break
-            except errors.UserAlreadyParticipantError:
-                stats["already_in"] += 1; break
-            except errors.InputUserDeactivatedError:
-                stats["deactivated"] += 1; break
-            except (errors.UserBannedInChannelError, errors.UserKickedError):
-                stats["other"] += 1; break
             except Exception:
-                stats["other"] += 1; break
+                stats["other"] += 1
 
+        except errors.PeerFloodError:
+            # Account is spam-flagged — stop immediately and clean up
+            await _cleanup_contacts(c, imported_ids)
+            try:
+                await context.bot.edit_message_text(
+                    chat_id=chat_id, message_id=prog_msg.message_id,
+                    parse_mode=ParseMode.HTML,
+                    text=(
+                        f"⛔ <b>Telegram Spam Restriction Hit!</b>\n\n"
+                        f"✅ Added <b>{stats['added']}</b> members before being stopped.\n\n"
+                        f"<b>Why this happens:</b> Telegram flagged this account for adding\n"
+                        f"too many non-contacts. This is a Telegram server-side block.\n\n"
+                        f"<b>What to do:</b>\n"
+                        f"1. Wait <b>24–48 hours</b> before trying again\n"
+                        f"2. Message <code>@SpamBot</code> on Telegram to appeal\n"
+                        f"3. Try using a different account from 👤 Accounts"
+                    ),
+                    reply_markup=kb_menu(),
+                )
+            except Exception:
+                pass
+            stats["status"] = "peer_flood"
+            return stats
+
+        except errors.ChatAdminRequiredError:
+            await _cleanup_contacts(c, imported_ids)
+            try:
+                await context.bot.edit_message_text(
+                    chat_id=chat_id, message_id=prog_msg.message_id,
+                    parse_mode=ParseMode.HTML,
+                    text=(
+                        f"❌ <b>Admin rights required!</b>\n\n"
+                        f"You need to be an <b>admin</b> in the target group.\n"
+                        f"Ask the group owner to promote you first, then try again."
+                    ),
+                    reply_markup=kb_menu(),
+                )
+            except Exception:
+                pass
+            stats["status"] = "no_admin"
+            return stats
+
+        except errors.UserPrivacyRestrictedError:  stats["privacy"]      += 1
+        except errors.UserNotMutualContactError:   stats["contact_needed"] += 1
+        except errors.UserAlreadyParticipantError: stats["already_in"]   += 1
+        except errors.InputUserDeactivatedError:   stats["deactivated"]  += 1
+        except (errors.UserBannedInChannelError, errors.UserKickedError): stats["other"] += 1
+        except Exception:                          stats["other"]        += 1
+
+        # Human-like random delay — same speed a person taps through the UI
+        await asyncio.sleep(random.uniform(3, 7))
+
+        # Progress update every ~5 seconds
         now = time.time()
-        if now - last_edit >= 3:
+        if now - last_edit >= 5:
             done = i + 1
             try:
                 await context.bot.edit_message_text(
                     chat_id=chat_id, message_id=prog_msg.message_id,
                     parse_mode=ParseMode.HTML,
                     text=(
-                        f"⏳ <b>Adding members…</b>\n\n"
+                        f"🚀 <b>Adding members…</b>\n\n"
                         f"<code>{pbar(done, total)}</code>\n"
-                        f"✅ Added: <b>{stats['added']}</b>  |  "
-                        f"⏭ Skipped: <b>{done - stats['added']}</b>  |  "
+                        f"✅ Added: <b>{stats['added']}</b>  "
+                        f"⏭ Skipped: <b>{done - stats['added']}</b>  "
                         f"📊 Total: <b>{total}</b>\n\n"
-                        f"<i>Hang tight — this takes a moment!</i>"
+                        f"<i>Running contact trick to bypass restrictions…</i>"
                     ),
                 )
                 last_edit = now
-            except Exception: pass
+            except Exception:
+                pass
 
-        await asyncio.sleep(2)
+    # ── Phase 3: Clean up — delete all imported contacts ─────────────────────
+    if imported_ids:
+        try:
+            await context.bot.edit_message_text(
+                chat_id=chat_id, message_id=prog_msg.message_id,
+                parse_mode=ParseMode.HTML,
+                text="🧹 <b>Cleaning up…</b>\n\n<i>Removing temporarily imported contacts…</i>",
+            )
+        except Exception:
+            pass
+        await _cleanup_contacts(c, imported_ids)
 
     stats["status"] = "done"
     return stats
