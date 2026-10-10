@@ -544,8 +544,8 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
         except Exception:
             pass
         
-        # Human-like delay after making contact, before adding to group
-        await asyncio.sleep(random.uniform(1, 3))
+        # Human-like delay after making contact, before adding to group (increased for safety)
+        await asyncio.sleep(random.uniform(5, 10))
 
         try:
             if is_super:
@@ -637,8 +637,8 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
         except (errors.UserBannedInChannelError, errors.UserKickedError): stats["other"] += 1
         except Exception:                          stats["other"]        += 1
 
-        # Human-like random delay — same speed a person taps through the UI
-        await asyncio.sleep(random.uniform(3, 7))
+        # Massive safety delay between adding members to prevent Telegram ban
+        await asyncio.sleep(random.uniform(15, 30))
 
         # Progress update every ~5 seconds
         now = time.time()
