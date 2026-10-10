@@ -27,7 +27,7 @@ from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
 from telegram.constants import ParseMode
 from telethon import TelegramClient, errors
 from telethon.tl.functions.channels import GetParticipantsRequest, InviteToChannelRequest
-from telethon.tl.functions.contacts import ImportContactsRequest, DeleteContactsRequest
+from telethon.tl.functions.contacts import ImportContactsRequest, DeleteContactsRequest, AddContactRequest
 from telethon.tl.functions.messages import AddChatUserRequest
 from telethon.tl.types import (
     Channel, Chat,
@@ -484,7 +484,7 @@ async def _cleanup_contacts(c: TelegramClient, user_ids: list):
 async def do_add(target_entity, members: list, add_limit: int, prog_msg, context, chat_id) -> dict:
     """
     Add members using the CONTACT TRICK:
-      Phase 1 — Bulk import phone numbers as contacts (same as what the Telegram app does)
+      Phase 1 — Add member as a contact (works via ID/username, NO PHONE REQUIRED)
       Phase 2 — Add each member to the group (now treated as contacts, much less restricted)
       Phase 3 — Bulk delete imported contacts (cleanup)
     """
@@ -497,43 +497,16 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
                        "deactivated": 0, "contact_needed": 0, "other": 0}
     last_edit       = 0
 
-    # ── Phase 1: Bulk import all available phone numbers as contacts ──────────
-    members_with_phone = [m for m in to_add if m.get("phone")]
-    if members_with_phone:
-        try:
-            await context.bot.edit_message_text(
-                chat_id=chat_id, message_id=prog_msg.message_id,
-                parse_mode=ParseMode.HTML,
-                text=(
-                    f"📇 <b>Preparing contacts…</b>\n\n"
-                    f"Importing <b>{len(members_with_phone)}</b> phone numbers as contacts\n"
-                    f"<i>This makes adding work just like the Telegram app — almost done!</i>"
-                ),
-            )
-        except Exception:
-            pass
+    try:
+        await context.bot.edit_message_text(
+            chat_id=chat_id, message_id=prog_msg.message_id,
+            parse_mode=ParseMode.HTML,
+            text=f"📇 <b>Preparing…</b>\n\n<i>Adding users as temporary contacts to bypass Telegram restrictions...</i>",
+        )
+    except Exception:
+        pass
 
-        # Import in batches of 25 (Telegram API limit per request)
-        for batch_start in range(0, len(members_with_phone), 25):
-            batch = members_with_phone[batch_start: batch_start + 25]
-            contacts = [
-                InputPhoneContact(
-                    client_id=m["user_id"],
-                    phone=m["phone"],
-                    first_name=m.get("first_name") or "User",
-                    last_name=m.get("last_name") or "",
-                )
-                for m in batch
-            ]
-            try:
-                result = await c(ImportContactsRequest(contacts))
-                for u in result.users:
-                    imported_ids.append(u.id)
-            except Exception:
-                pass
-            await asyncio.sleep(1)
-
-    # ── Phase 2: Add each member ──────────────────────────────────────────────
+    # ── Add each member ──────────────────────────────────────────────
     for i, m in enumerate(to_add):
         uid = m["user_id"]
 
@@ -542,6 +515,22 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
         except Exception:
             stats["other"] += 1
             continue
+
+        # TRICK: Add them as a contact first using their ID (no phone needed!)
+        try:
+            await c(AddContactRequest(
+                id=input_user,
+                first_name=m.get("first_name") or "User",
+                last_name=m.get("last_name") or "",
+                phone=m.get("phone") or "",
+                add_phone_privacy_exception=False
+            ))
+            imported_ids.append(uid)
+        except Exception:
+            pass
+        
+        # Human-like delay after making contact, before adding to group
+        await asyncio.sleep(random.uniform(1, 3))
 
         try:
             if is_super:
@@ -570,14 +559,14 @@ async def do_add(target_entity, members: list, add_limit: int, prog_msg, context
                     chat_id=chat_id, message_id=prog_msg.message_id,
                     parse_mode=ParseMode.HTML,
                     text=(
-                        f"⛔ <b>Telegram Spam Restriction Hit!</b>\n\n"
-                        f"✅ Added <b>{stats['added']}</b> members before being stopped.\n\n"
-                        f"<b>Why this happens:</b> Telegram flagged this account for adding\n"
-                        f"too many non-contacts. This is a Telegram server-side block.\n\n"
+                        f"⛔ <b>Telegram Group Limit Hit!</b>\n\n"
+                        f"✅ Added <b>{stats['added']}</b> members before stopping.\n\n"
+                        f"<b>Why this happens:</b> Telegram limits how many people can be\n"
+                        f"added to a single group per day (usually ~50 max per group,\n"
+                        f"even if you have multiple accounts). Sometimes it silent-drops them.\n\n"
                         f"<b>What to do:</b>\n"
-                        f"1. Wait <b>24–48 hours</b> before trying again\n"
-                        f"2. Message <code>@SpamBot</code> on Telegram to appeal\n"
-                        f"3. Try using a different account from 👤 Accounts"
+                        f"1. Check the group — some members might have been added\n"
+                        f"2. Wait <b>24 hours</b> before adding to THIS group again"
                     ),
                     reply_markup=kb_menu(),
                 )
@@ -665,7 +654,8 @@ async def show_accounts(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lines = []
     for s in sessions:
         icon = "✅" if s == current else "○"
-        lines.append(f"  {icon} <code>{h(s)}</code>")
+        label = " (Legacy/Empty)" if s == "tg_scraper_session" else ""
+        lines.append(f"  {icon} <code>{h(s)}</code>{label}")
 
     text = (
         f"👤 <b>Account Manager</b>\n\n"
