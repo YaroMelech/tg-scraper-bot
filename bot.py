@@ -198,40 +198,7 @@ async def notify_user_banned(context: ContextTypes.DEFAULT_TYPE, uid: int):
     except Exception: pass
 
 async def check_access(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
-    user     = update.effective_user
-    uid      = user.id
-    username = user.username or ""
-    name     = user.full_name or ""
-    is_new   = register_user(uid, username, name)
-    status   = get_status(uid)
-
-    if state["kill_switch"] and status != "admin":
-        msg = "🔴 <b>System is temporarily offline.</b>\n\nPlease try again later."
-        if update.message:
-            await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
-        elif update.callback_query:
-            await update.callback_query.answer("🔴 System offline", show_alert=True)
-        return False
-
-    if status == "banned":
-        msg = "🚫 <b>Your access has been revoked.</b>\n\nContact the admin."
-        if update.message:
-            await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
-        elif update.callback_query:
-            await update.callback_query.answer("🚫 Access revoked", show_alert=True)
-        return False
-
-    if status == "pending":
-        if is_new: await notify_admins(context, uid, username, name)
-        msg = "⏳ <b>Awaiting admin approval.</b>\n\nYour request was sent. You'll get a message when approved."
-        if not ADMIN_IDS:
-            msg += "\n\n⚠️ <i>No admin configured yet. The bot owner must set admin_ids in config.ini first.</i>"
-        if update.message:
-            await update.message.reply_text(msg, parse_mode=ParseMode.HTML)
-        elif update.callback_query:
-            await update.callback_query.answer("⏳ Awaiting approval", show_alert=True)
-        return False
-
+    # Admin approval system has been removed for a seamless public UX
     return True
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -309,8 +276,6 @@ def kb_main(uid: int) -> InlineKeyboardMarkup:
         [InlineKeyboardButton("👤  Accounts",                  callback_data="accounts")],
         [InlineKeyboardButton("ℹ️   Help",                    callback_data="help")],
     ]
-    if is_admin(uid):
-        rows.insert(0, [InlineKeyboardButton("🛡️  Admin Panel", callback_data="admin_panel")])
     return InlineKeyboardMarkup(rows)
 
 def kb_filter() -> InlineKeyboardMarkup:
