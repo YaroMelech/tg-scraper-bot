@@ -1,0 +1,63 @@
+2026-10-09T09:02:27.534138127Z [inf]  Starting Container
+2026-10-09T09:02:28.360265558Z [err]  /app/bot.py:1121: PTBUserWarning: If 'per_message=False', 'CallbackQueryHandler' will not be tracked for every message. Read this FAQ entry to learn more about the per_* settings: https://github.com/python-telegram-bot/python-telegram-bot/wiki/Frequently-Asked-Questions#what-do-the-per_-settings-in-conversationhandler-do.
+2026-10-09T09:02:28.360267938Z [err]    conv = ConversationHandler(
+2026-10-09T09:02:28.360270368Z [inf]  
+2026-10-09T09:02:28.360273218Z [inf]  🤖 TG Scraper Bot is running!
+2026-10-09T09:02:28.360276338Z [inf]  📱 Telegram → @tg_scrape_tool_bot → /start
+2026-10-09T09:02:28.360279838Z [inf]  🆔 Run /myid in the bot to get your admin ID
+2026-10-09T09:02:28.360282748Z [inf]  ⌨️  Ctrl+C to stop.
+2026-10-09T09:02:28.360285318Z [inf]  
+2026-10-09T09:02:29.964667604Z [inf]  ⚠️  No session — users can log in via 👤 Accounts in the bot.
+2026-10-09T09:02:29.964674723Z [inf]  🛡️  Admins: {844323804}
+2026-10-09T09:02:34.549012962Z [err]  2026-10-09 09:02:34,532 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T09:02:34.549017862Z [err]  Traceback (most recent call last):
+2026-10-09T09:02:34.549021032Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_utils/networkloop.py", line 161, in network_retry_loop
+2026-10-09T09:02:34.549024472Z [err]      await do_action()
+2026-10-09T09:02:34.549026812Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_utils/networkloop.py", line 154, in do_action
+2026-10-09T09:02:34.549029202Z [err]      action_cb_task.result()
+2026-10-09T09:02:34.549031702Z [err]      ~~~~~~~~~~~~~~~~~~~~~^^
+2026-10-09T09:02:34.549034072Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_updater.py", line 340, in polling_action_cb
+2026-10-09T09:02:34.549037462Z [err]      updates = await self.bot.get_updates(
+2026-10-09T09:02:34.549040072Z [err]                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T09:02:34.549042372Z [err]      ...<3 lines>...
+2026-10-09T09:02:34.549044682Z [err]      )
+2026-10-09T09:02:34.549046962Z [err]      ^
+2026-10-09T09:02:34.549049142Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 680, in get_updates
+2026-10-09T09:02:34.549051652Z [err]      updates = await super().get_updates(
+2026-10-09T09:02:34.549054571Z [err]                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T09:02:34.549057061Z [err]      ...<9 lines>...
+2026-10-09T09:02:34.549060301Z [err]      )
+2026-10-09T09:02:34.549062571Z [err]      ^
+2026-10-09T09:02:34.549064941Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 4767, in get_updates
+2026-10-09T09:02:34.549067681Z [err]      await self._post(
+2026-10-09T09:02:34.549069931Z [err]      ^^^^^^^^^^^^^^^^^
+2026-10-09T09:02:34.549072191Z [err]      ...<7 lines>...
+2026-10-09T09:02:34.549074891Z [err]      ),
+2026-10-09T09:02:34.549477464Z [err]      ^
+2026-10-09T09:02:34.549480154Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T09:02:34.549482454Z [err]      return await self._do_post(
+2026-10-09T09:02:34.549484923Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T09:02:34.549487313Z [err]      ...<6 lines>...
+2026-10-09T09:02:34.549489793Z [err]      )
+2026-10-09T09:02:34.549492613Z [err]      ^
+2026-10-09T09:02:34.549494903Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T09:02:34.549497193Z [err]      return await super()._do_post(
+2026-10-09T09:02:34.549499473Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T09:02:34.549502103Z [err]      ...<6 lines>...
+2026-10-09T09:02:34.549504423Z [err]      )
+2026-10-09T09:02:34.549506723Z [err]      ^
+2026-10-09T09:02:34.549509053Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T09:02:34.549511523Z [err]      result = await request.post(
+2026-10-09T09:02:34.549514103Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T09:02:34.549516813Z [err]      ...<6 lines>...
+2026-10-09T09:02:34.549519643Z [err]      )
+2026-10-09T09:02:34.549521903Z [err]      ^
+2026-10-09T09:02:34.549524073Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T09:02:34.549526623Z [err]      result = await self._request_wrapper(
+2026-10-09T09:02:34.549529213Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T09:02:34.549532113Z [err]      ...<7 lines>...
+2026-10-09T09:02:34.549534693Z [err]      )
+2026-10-09T09:02:34.549537552Z [err]      ^
+2026-10-09T09:02:34.549540072Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T09:02:34.549543652Z [err]      raise exception
+2026-10-09T09:02:34.549546252Z [err]  telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running

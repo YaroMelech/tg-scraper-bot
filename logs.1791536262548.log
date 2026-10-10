@@ -1,0 +1,991 @@
+2026-10-09T08:44:47.868884699Z [inf]  Starting Container
+2026-10-09T08:44:47.920037159Z [err]  /app/bot.py:1106: PTBUserWarning: If 'per_message=False', 'CallbackQueryHandler' will not be tracked for every message. Read this FAQ entry to learn more about the per_* settings: https://github.com/python-telegram-bot/python-telegram-bot/wiki/Frequently-Asked-Questions#what-do-the-per_-settings-in-conversationhandler-do.
+2026-10-09T08:44:47.920040109Z [err]    conv = ConversationHandler(
+2026-10-09T08:44:47.920044060Z [inf]  
+2026-10-09T08:44:47.920047520Z [inf]  🤖 TG Scraper Bot is running!
+2026-10-09T08:44:47.920050850Z [inf]  📱 Telegram → @tg_scrape_tool_bot → /start
+2026-10-09T08:44:47.920054560Z [inf]  🆔 Run /myid in the bot to get your admin ID
+2026-10-09T08:44:47.920057530Z [inf]  ⌨️  Ctrl+C to stop.
+2026-10-09T08:44:47.920062170Z [inf]  
+2026-10-09T08:44:49.486047868Z [inf]  ⚠️  No session — users can log in via 👤 Accounts in the bot.
+2026-10-09T08:44:49.486051518Z [inf]  🛡️  Admins: {844323804}
+2026-10-09T08:52:20.478527025Z [err]  2026-10-09 08:52:13,983 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:52:20.478531265Z [err]  Traceback (most recent call last):
+2026-10-09T08:52:20.478534365Z [err]    File "/app/bot.py", line 562, in cmd_start
+2026-10-09T08:52:20.478537295Z [err]      await update.callback_query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:52:20.478539635Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_callbackquery.py", line 269, in edit_message_text
+2026-10-09T08:52:20.478542295Z [err]      return await self._get_message().edit_text(
+2026-10-09T08:52:20.478545355Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.478547595Z [err]      ...<11 lines>...
+2026-10-09T08:52:20.478549785Z [err]      )
+2026-10-09T08:52:20.478552205Z [err]      ^
+2026-10-09T08:52:20.478554585Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 4473, in edit_text
+2026-10-09T08:52:20.478557265Z [err]      return await self.get_bot().edit_message_text(
+2026-10-09T08:52:20.478560015Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.478563305Z [err]      ...<15 lines>...
+2026-10-09T08:52:20.478566815Z [err]      )
+2026-10-09T08:52:20.478569025Z [err]      ^
+2026-10-09T08:52:20.478571715Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 1763, in edit_message_text
+2026-10-09T08:52:20.478574145Z [err]      return await super().edit_message_text(
+2026-10-09T08:52:20.478576385Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.478578625Z [err]      ...<15 lines>...
+2026-10-09T08:52:20.478581705Z [err]      )
+2026-10-09T08:52:20.478584375Z [err]      ^
+2026-10-09T08:52:20.478586895Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 4465, in edit_message_text
+2026-10-09T08:52:20.479391787Z [err]      return await self._send_message(
+2026-10-09T08:52:20.479398287Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.479402447Z [err]      ...<11 lines>...
+2026-10-09T08:52:20.479406627Z [err]      )
+2026-10-09T08:52:20.479411196Z [err]      ^
+2026-10-09T08:52:20.479416296Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:52:20.479420216Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.479421246Z [err]      result = await super()._send_message(
+2026-10-09T08:52:20.479425876Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.479430656Z [err]      ...<23 lines>...
+2026-10-09T08:52:20.479433166Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.479436386Z [err]      )
+2026-10-09T08:52:20.479440796Z [err]      )
+2026-10-09T08:52:20.479442326Z [err]      ^
+2026-10-09T08:52:20.479449566Z [err]      ^
+2026-10-09T08:52:20.479449706Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:52:20.479457426Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:52:20.479457576Z [err]      result = await self._post(
+2026-10-09T08:52:20.479465526Z [err]      return await super()._do_post(
+2026-10-09T08:52:20.479466086Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.479473076Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.479477116Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.479477686Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.479481506Z [err]      )
+2026-10-09T08:52:20.479484226Z [err]      ^
+2026-10-09T08:52:20.479487536Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:52:20.479490306Z [err]      return await self._do_post(
+2026-10-09T08:52:20.480122810Z [err]      )
+2026-10-09T08:52:20.480127000Z [err]      ^
+2026-10-09T08:52:20.480130849Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:52:20.480136949Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:52:20.480137829Z [err]  During handling of the above exception, another exception occurred:
+2026-10-09T08:52:20.480137959Z [err]      result = await request.post(
+2026-10-09T08:52:20.480143789Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.480148039Z [err]  
+2026-10-09T08:52:20.480148149Z [err]      result = await self._request_wrapper(
+2026-10-09T08:52:20.480151829Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.480154899Z [err]  Traceback (most recent call last):
+2026-10-09T08:52:20.480157519Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.480159959Z [err]      )
+2026-10-09T08:52:20.480163549Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:52:20.480165759Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.480167549Z [err]      ^
+2026-10-09T08:52:20.480169959Z [err]      await coroutine
+2026-10-09T08:52:20.480173479Z [err]      )
+2026-10-09T08:52:20.480180029Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:52:20.480180879Z [err]      ^
+2026-10-09T08:52:20.480185639Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:52:20.480189289Z [err]      raise exception
+2026-10-09T08:52:20.480192759Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:52:20.480198569Z [err]  
+2026-10-09T08:52:20.481089400Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:52:20.481092170Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.481094820Z [err]          update, application, handler_check_result, context
+2026-10-09T08:52:20.481097320Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.481099660Z [err]      )
+2026-10-09T08:52:20.481102710Z [err]      ^
+2026-10-09T08:52:20.481105240Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:52:20.481107410Z [err]      return await self.callback(update, context)
+2026-10-09T08:52:20.481109580Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.481111940Z [err]    File "/app/bot.py", line 719, in cb_handler
+2026-10-09T08:52:20.481114220Z [err]      return await cmd_start(update, context)
+2026-10-09T08:52:20.481116770Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.481119210Z [err]    File "/app/bot.py", line 564, in cmd_start
+2026-10-09T08:52:20.481121440Z [err]      await context.bot.send_message(update.effective_chat.id, text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:52:20.481123679Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:52:20.481125999Z [err]      return await super().send_message(
+2026-10-09T08:52:20.481128799Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.481131339Z [err]      ...<23 lines>...
+2026-10-09T08:52:20.481134629Z [err]      )
+2026-10-09T08:52:20.481136999Z [err]      ^
+2026-10-09T08:52:20.481140159Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:52:20.481143349Z [err]      return await self._send_message(
+2026-10-09T08:52:20.482324238Z [err]      )
+2026-10-09T08:52:20.482327248Z [err]      ...<23 lines>...
+2026-10-09T08:52:20.482332718Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482332958Z [err]      ^
+2026-10-09T08:52:20.482337988Z [err]      )
+2026-10-09T08:52:20.482340788Z [err]      ...<21 lines>...
+2026-10-09T08:52:20.482345398Z [err]      ^
+2026-10-09T08:52:20.482348378Z [err]      )
+2026-10-09T08:52:20.482353058Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:52:20.482355518Z [err]      ^
+2026-10-09T08:52:20.482359768Z [err]      result = await self._post(
+2026-10-09T08:52:20.482361778Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:52:20.482366618Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482367448Z [err]      result = await super()._send_message(
+2026-10-09T08:52:20.482371468Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482374158Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.482377618Z [err]      )
+2026-10-09T08:52:20.482381128Z [err]      ^
+2026-10-09T08:52:20.482384308Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:52:20.482387448Z [err]      return await self._do_post(
+2026-10-09T08:52:20.482391128Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482394437Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.482398097Z [err]      )
+2026-10-09T08:52:20.482401077Z [err]      ^
+2026-10-09T08:52:20.482404317Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:52:20.482408607Z [err]      return await super()._do_post(
+2026-10-09T08:52:20.482412137Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482415217Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.482831693Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_callbackquery.py", line 269, in edit_message_text
+2026-10-09T08:52:20.482835743Z [err]      return await self._get_message().edit_text(
+2026-10-09T08:52:20.482837263Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:52:20.482841273Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482842263Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:52:20.482844553Z [err]  2026-10-09 08:52:18,844 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:52:20.482849922Z [err]  Traceback (most recent call last):
+2026-10-09T08:52:20.482852652Z [err]      result = await request.post(
+2026-10-09T08:52:20.482855742Z [err]    File "/app/bot.py", line 562, in cmd_start
+2026-10-09T08:52:20.482861832Z [err]      await update.callback_query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:52:20.482861952Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482869262Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.482873702Z [err]      )
+2026-10-09T08:52:20.482878312Z [err]      ^
+2026-10-09T08:52:20.482882302Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:52:20.482886042Z [err]      result = await self._request_wrapper(
+2026-10-09T08:52:20.482889192Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.482892502Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.482895872Z [err]      )
+2026-10-09T08:52:20.482899102Z [err]      ^
+2026-10-09T08:52:20.482902942Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:52:20.482906432Z [err]      raise exception
+2026-10-09T08:52:20.484128040Z [err]      ...<11 lines>...
+2026-10-09T08:52:20.484141090Z [err]      )
+2026-10-09T08:52:20.484148350Z [err]      ^
+2026-10-09T08:52:20.484152740Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 4473, in edit_text
+2026-10-09T08:52:20.484156710Z [err]      return await self.get_bot().edit_message_text(
+2026-10-09T08:52:20.484160650Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.484164030Z [err]      ...<15 lines>...
+2026-10-09T08:52:20.484167790Z [err]      )
+2026-10-09T08:52:20.484171560Z [err]      ^
+2026-10-09T08:52:20.484175480Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 1763, in edit_message_text
+2026-10-09T08:52:20.484179070Z [err]      return await super().edit_message_text(
+2026-10-09T08:52:20.484183060Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.484187100Z [err]      ...<15 lines>...
+2026-10-09T08:52:20.484190590Z [err]      )
+2026-10-09T08:52:20.484194590Z [err]      ^
+2026-10-09T08:52:20.484217180Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 4465, in edit_message_text
+2026-10-09T08:52:20.484238049Z [err]      return await self._send_message(
+2026-10-09T08:52:20.484243789Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.484247689Z [err]      ...<11 lines>...
+2026-10-09T08:52:20.484251369Z [err]      )
+2026-10-09T08:52:20.484254899Z [err]      ^
+2026-10-09T08:52:20.484258359Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:52:20.484262189Z [err]      result = await super()._send_message(
+2026-10-09T08:52:20.484266059Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.484269629Z [err]      ...<23 lines>...
+2026-10-09T08:52:20.484273759Z [err]      )
+2026-10-09T08:52:20.485590705Z [err]      ^
+2026-10-09T08:52:20.485591795Z [err]      ^
+2026-10-09T08:52:20.485595815Z [err]      ^
+2026-10-09T08:52:20.485603945Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:52:20.485606925Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:52:20.485607205Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:52:20.485613915Z [err]      result = await self._request_wrapper(
+2026-10-09T08:52:20.485617565Z [err]      result = await self._post(
+2026-10-09T08:52:20.485617995Z [err]      result = await request.post(
+2026-10-09T08:52:20.485621615Z [err]      )
+2026-10-09T08:52:20.485624325Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.485625095Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.485633155Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.485633795Z [err]      ^
+2026-10-09T08:52:20.485634065Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.485639355Z [err]      )
+2026-10-09T08:52:20.485642055Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:52:20.485646715Z [err]      )
+2026-10-09T08:52:20.485647995Z [err]      ^
+2026-10-09T08:52:20.485650815Z [err]      return await super()._do_post(
+2026-10-09T08:52:20.485655085Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.485666515Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:52:20.485669915Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.485671325Z [err]      return await self._do_post(
+2026-10-09T08:52:20.485673635Z [err]      )
+2026-10-09T08:52:20.485675795Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.485679434Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.487056981Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.487060131Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.487063181Z [err]      )
+2026-10-09T08:52:20.487066211Z [err]      ^
+2026-10-09T08:52:20.487069701Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:52:20.487073011Z [err]      raise exception
+2026-10-09T08:52:20.487075741Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:52:20.487078421Z [err]  
+2026-10-09T08:52:20.487081211Z [err]  During handling of the above exception, another exception occurred:
+2026-10-09T08:52:20.487083841Z [err]  
+2026-10-09T08:52:20.487086491Z [err]  Traceback (most recent call last):
+2026-10-09T08:52:20.487089091Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:52:20.487091711Z [err]      await coroutine
+2026-10-09T08:52:20.487094471Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:52:20.487096851Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:52:20.487099731Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.487102191Z [err]          update, application, handler_check_result, context
+2026-10-09T08:52:20.487104771Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.487107431Z [err]      )
+2026-10-09T08:52:20.487109901Z [err]      ^
+2026-10-09T08:52:20.487112761Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:52:20.487115491Z [err]      return await self.callback(update, context)
+2026-10-09T08:52:20.487118251Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.487881223Z [err]    File "/app/bot.py", line 719, in cb_handler
+2026-10-09T08:52:20.487883173Z [err]      ...<21 lines>...
+2026-10-09T08:52:20.487886963Z [err]      return await cmd_start(update, context)
+2026-10-09T08:52:20.487891463Z [err]      )
+2026-10-09T08:52:20.487893023Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.487898463Z [err]      ^
+2026-10-09T08:52:20.487899893Z [err]    File "/app/bot.py", line 564, in cmd_start
+2026-10-09T08:52:20.487906333Z [err]      await context.bot.send_message(update.effective_chat.id, text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:52:20.487906703Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:52:20.487910363Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:52:20.487914333Z [err]      result = await super()._send_message(
+2026-10-09T08:52:20.487916523Z [err]      return await super().send_message(
+2026-10-09T08:52:20.487922263Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.487922423Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.487931022Z [err]      ...<23 lines>...
+2026-10-09T08:52:20.487931422Z [err]      ...<23 lines>...
+2026-10-09T08:52:20.487938692Z [err]      )
+2026-10-09T08:52:20.487938872Z [err]      )
+2026-10-09T08:52:20.487946782Z [err]      ^
+2026-10-09T08:52:20.487947002Z [err]      ^
+2026-10-09T08:52:20.487953902Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:52:20.487954852Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:52:20.487958992Z [err]      return await self._send_message(
+2026-10-09T08:52:20.487962512Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.488913803Z [err]      result = await self._post(
+2026-10-09T08:52:20.488921193Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.488925652Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.488929852Z [err]      )
+2026-10-09T08:52:20.488934852Z [err]      ^
+2026-10-09T08:52:20.488939482Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:52:20.488943332Z [err]      return await self._do_post(
+2026-10-09T08:52:20.488946882Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.488950482Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.488954512Z [err]      )
+2026-10-09T08:52:20.488957972Z [err]      ^
+2026-10-09T08:52:20.488964822Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:52:20.488968282Z [err]      return await super()._do_post(
+2026-10-09T08:52:20.488972732Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.489029081Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.489033011Z [err]      )
+2026-10-09T08:52:20.489036621Z [err]      ^
+2026-10-09T08:52:20.489040821Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:52:20.489046091Z [err]      result = await request.post(
+2026-10-09T08:52:20.489049911Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.489107480Z [err]      ...<6 lines>...
+2026-10-09T08:52:20.489112740Z [err]      )
+2026-10-09T08:52:20.489117760Z [err]      ^
+2026-10-09T08:52:20.489123210Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:52:20.489128420Z [err]      result = await self._request_wrapper(
+2026-10-09T08:52:20.489134410Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:52:20.489138620Z [err]      ...<7 lines>...
+2026-10-09T08:52:20.489778874Z [err]      )
+2026-10-09T08:52:20.489782774Z [err]      ^
+2026-10-09T08:52:20.489785704Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:52:20.489789094Z [err]      raise exception
+2026-10-09T08:52:20.489791734Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:53:10.492107372Z [err]      ^
+2026-10-09T08:53:10.492110972Z [err]  2026-10-09 08:53:04,870 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:53:10.492112092Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 4473, in edit_text
+2026-10-09T08:53:10.492116741Z [err]      return await self.get_bot().edit_message_text(
+2026-10-09T08:53:10.492117641Z [err]  Traceback (most recent call last):
+2026-10-09T08:53:10.492118691Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 4465, in edit_message_text
+2026-10-09T08:53:10.492120911Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.492122771Z [err]    File "/app/bot.py", line 562, in cmd_start
+2026-10-09T08:53:10.492127081Z [err]      ...<15 lines>...
+2026-10-09T08:53:10.492127131Z [err]      await update.callback_query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:53:10.492127551Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.492131461Z [err]      ...<15 lines>...
+2026-10-09T08:53:10.492132701Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_callbackquery.py", line 269, in edit_message_text
+2026-10-09T08:53:10.492133591Z [err]      )
+2026-10-09T08:53:10.492134641Z [err]      )
+2026-10-09T08:53:10.492137801Z [err]      return await self._get_message().edit_text(
+2026-10-09T08:53:10.492138111Z [err]      ^
+2026-10-09T08:53:10.492138141Z [err]      ^
+2026-10-09T08:53:10.492142051Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.492142081Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 1763, in edit_message_text
+2026-10-09T08:53:10.492145781Z [err]      ...<11 lines>...
+2026-10-09T08:53:10.492146151Z [err]      return await super().edit_message_text(
+2026-10-09T08:53:10.492149561Z [err]      )
+2026-10-09T08:53:10.493125972Z [err]      return await self._send_message(
+2026-10-09T08:53:10.493129602Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.493133472Z [err]      ...<11 lines>...
+2026-10-09T08:53:10.493136242Z [err]      )
+2026-10-09T08:53:10.493139292Z [err]      ^
+2026-10-09T08:53:10.493139802Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:53:10.493140512Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:53:10.493143532Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:53:10.493145192Z [err]      return await self._do_post(
+2026-10-09T08:53:10.493145492Z [err]      return await super()._do_post(
+2026-10-09T08:53:10.493147612Z [err]      result = await super()._send_message(
+2026-10-09T08:53:10.493149142Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.493149962Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.493151972Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.493154062Z [err]      ...<6 lines>...
+2026-10-09T08:53:10.493154922Z [err]      ...<6 lines>...
+2026-10-09T08:53:10.493155802Z [err]      ...<23 lines>...
+2026-10-09T08:53:10.493158192Z [err]      )
+2026-10-09T08:53:10.493161912Z [err]      ^
+2026-10-09T08:53:10.493163642Z [err]      )
+2026-10-09T08:53:10.493167702Z [err]      ^
+2026-10-09T08:53:10.493170872Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:53:10.493174202Z [err]      result = await self._post(
+2026-10-09T08:53:10.493177852Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.493181592Z [err]      ...<7 lines>...
+2026-10-09T08:53:10.493185192Z [err]      )
+2026-10-09T08:53:10.493188562Z [err]      ^
+2026-10-09T08:53:10.494206081Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:53:10.494211021Z [err]  
+2026-10-09T08:53:10.494215011Z [err]  During handling of the above exception, another exception occurred:
+2026-10-09T08:53:10.494219501Z [err]  
+2026-10-09T08:53:10.494224011Z [err]  Traceback (most recent call last):
+2026-10-09T08:53:10.494227711Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:53:10.494231611Z [err]      await coroutine
+2026-10-09T08:53:10.494235561Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:53:10.494299240Z [err]      )
+2026-10-09T08:53:10.494302690Z [err]      ^
+2026-10-09T08:53:10.494306300Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:53:10.494309930Z [err]      result = await request.post(
+2026-10-09T08:53:10.494313160Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.494316990Z [err]      ...<6 lines>...
+2026-10-09T08:53:10.494320360Z [err]      )
+2026-10-09T08:53:10.494323720Z [err]      ^
+2026-10-09T08:53:10.494327240Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:53:10.494330820Z [err]      result = await self._request_wrapper(
+2026-10-09T08:53:10.494334050Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.494337620Z [err]      ...<7 lines>...
+2026-10-09T08:53:10.494341160Z [err]      )
+2026-10-09T08:53:10.494343990Z [err]      ^
+2026-10-09T08:53:10.494346660Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:53:10.494349230Z [err]      raise exception
+2026-10-09T08:53:10.494895855Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:53:10.494898905Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.494901895Z [err]          update, application, handler_check_result, context
+2026-10-09T08:53:10.494904685Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.494904815Z [err]      return await self._send_message(
+2026-10-09T08:53:10.494907155Z [err]      )
+2026-10-09T08:53:10.494909694Z [err]      ^
+2026-10-09T08:53:10.494910764Z [err]      return await self.callback(update, context)
+2026-10-09T08:53:10.494912364Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:53:10.494914764Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.494917624Z [err]      await context.bot.send_message(update.effective_chat.id, text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:53:10.494918664Z [err]    File "/app/bot.py", line 719, in cb_handler
+2026-10-09T08:53:10.494920664Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:53:10.494922574Z [err]      return await cmd_start(update, context)
+2026-10-09T08:53:10.494923384Z [err]      return await super().send_message(
+2026-10-09T08:53:10.494925984Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.494928064Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.494928634Z [err]      ...<23 lines>...
+2026-10-09T08:53:10.494931194Z [err]      )
+2026-10-09T08:53:10.494932134Z [err]    File "/app/bot.py", line 564, in cmd_start
+2026-10-09T08:53:10.494933774Z [err]      ^
+2026-10-09T08:53:10.494936534Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:53:10.495719647Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.495723416Z [err]      ...<21 lines>...
+2026-10-09T08:53:10.495726836Z [err]      )
+2026-10-09T08:53:10.495730256Z [err]      ^
+2026-10-09T08:53:10.495733686Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:53:10.495737206Z [err]      result = await super()._send_message(
+2026-10-09T08:53:10.495740756Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.495745096Z [err]      ...<23 lines>...
+2026-10-09T08:53:10.495748786Z [err]      )
+2026-10-09T08:53:10.495752546Z [err]      ^
+2026-10-09T08:53:10.495756066Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:53:10.495759226Z [err]      result = await self._post(
+2026-10-09T08:53:10.495762776Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.495766326Z [err]      ...<7 lines>...
+2026-10-09T08:53:10.495769666Z [err]      )
+2026-10-09T08:53:10.495773206Z [err]      ^
+2026-10-09T08:53:10.495776836Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:53:10.495780176Z [err]      return await self._do_post(
+2026-10-09T08:53:10.495783836Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.495787046Z [err]      ...<6 lines>...
+2026-10-09T08:53:10.495790186Z [err]      )
+2026-10-09T08:53:10.495794516Z [err]      ^
+2026-10-09T08:53:10.495797966Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:53:10.495801166Z [err]      return await super()._do_post(
+2026-10-09T08:53:10.495804706Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.495808046Z [err]      ...<6 lines>...
+2026-10-09T08:53:10.495811325Z [err]      )
+2026-10-09T08:53:10.495815055Z [err]      ^
+2026-10-09T08:53:10.496305270Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:53:10.496307810Z [err]      result = await request.post(
+2026-10-09T08:53:10.496310420Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.496313770Z [err]      ...<6 lines>...
+2026-10-09T08:53:10.496316140Z [err]      )
+2026-10-09T08:53:10.496318550Z [err]      ^
+2026-10-09T08:53:10.496321710Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:53:10.496325150Z [err]      result = await self._request_wrapper(
+2026-10-09T08:53:10.496327760Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:53:10.496330400Z [err]      ...<7 lines>...
+2026-10-09T08:53:10.496332880Z [err]      )
+2026-10-09T08:53:10.496335210Z [err]      ^
+2026-10-09T08:53:10.496337450Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:53:10.496339680Z [err]      raise exception
+2026-10-09T08:53:10.496342340Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:54:00.508988171Z [err]      )
+2026-10-09T08:54:00.508998471Z [err]      ^
+2026-10-09T08:54:00.509004251Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 1763, in edit_message_text
+2026-10-09T08:54:00.509004501Z [err]      await update.callback_query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:54:00.509007431Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 4465, in edit_message_text
+2026-10-09T08:54:00.509012181Z [err]  2026-10-09 08:53:52,460 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:54:00.509017921Z [err]      return await super().edit_message_text(
+2026-10-09T08:54:00.509019361Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_callbackquery.py", line 269, in edit_message_text
+2026-10-09T08:54:00.509020821Z [err]  Traceback (most recent call last):
+2026-10-09T08:54:00.509026070Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.509027690Z [err]      return await self._get_message().edit_text(
+2026-10-09T08:54:00.509029040Z [err]    File "/app/bot.py", line 562, in cmd_start
+2026-10-09T08:54:00.509033840Z [err]      ...<15 lines>...
+2026-10-09T08:54:00.509035150Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.509040460Z [err]      ...<11 lines>...
+2026-10-09T08:54:00.509044940Z [err]      )
+2026-10-09T08:54:00.509049890Z [err]      ^
+2026-10-09T08:54:00.509052360Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 4473, in edit_text
+2026-10-09T08:54:00.509073771Z [err]      return await self.get_bot().edit_message_text(
+2026-10-09T08:54:00.509081301Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.509087961Z [err]      ...<15 lines>...
+2026-10-09T08:54:00.509093981Z [err]      )
+2026-10-09T08:54:00.509099731Z [err]      ^
+2026-10-09T08:54:00.510504286Z [err]      return await self._send_message(
+2026-10-09T08:54:00.510509916Z [err]      ...<7 lines>...
+2026-10-09T08:54:00.510513846Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.510520536Z [err]      ...<11 lines>...
+2026-10-09T08:54:00.510521376Z [err]      )
+2026-10-09T08:54:00.510529676Z [err]      ^
+2026-10-09T08:54:00.510533556Z [err]      )
+2026-10-09T08:54:00.510535966Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:54:00.510540006Z [err]      return await self._do_post(
+2026-10-09T08:54:00.510544566Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.510550496Z [err]      ^
+2026-10-09T08:54:00.510551366Z [err]      ...<6 lines>...
+2026-10-09T08:54:00.510558626Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:54:00.510558966Z [err]      )
+2026-10-09T08:54:00.510567025Z [err]      ^
+2026-10-09T08:54:00.510567215Z [err]      result = await super()._send_message(
+2026-10-09T08:54:00.510576075Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.510576205Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:54:00.510584275Z [err]      return await super()._do_post(
+2026-10-09T08:54:00.510585045Z [err]      ...<23 lines>...
+2026-10-09T08:54:00.510591865Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.510592705Z [err]      )
+2026-10-09T08:54:00.510598965Z [err]      ...<6 lines>...
+2026-10-09T08:54:00.510601255Z [err]      ^
+2026-10-09T08:54:00.510605565Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:54:00.510610265Z [err]      result = await self._post(
+2026-10-09T08:54:00.510615265Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.512333908Z [err]  Traceback (most recent call last):
+2026-10-09T08:54:00.512336398Z [err]      )
+2026-10-09T08:54:00.512340818Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:54:00.512346388Z [err]      ^
+2026-10-09T08:54:00.512348738Z [err]      await coroutine
+2026-10-09T08:54:00.512355378Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:54:00.512355608Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:54:00.512356498Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:54:00.512367807Z [err]      raise exception
+2026-10-09T08:54:00.512367947Z [err]      result = await request.post(
+2026-10-09T08:54:00.512376597Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.512379177Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:54:00.512382537Z [err]      ...<6 lines>...
+2026-10-09T08:54:00.512390317Z [err]  
+2026-10-09T08:54:00.512391207Z [err]      )
+2026-10-09T08:54:00.512397277Z [err]      ^
+2026-10-09T08:54:00.512399397Z [err]  During handling of the above exception, another exception occurred:
+2026-10-09T08:54:00.512406277Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:54:00.512408537Z [err]  
+2026-10-09T08:54:00.512412607Z [err]      result = await self._request_wrapper(
+2026-10-09T08:54:00.512415797Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.512419627Z [err]      ...<7 lines>...
+2026-10-09T08:54:00.512422227Z [err]      )
+2026-10-09T08:54:00.512425037Z [err]      ^
+2026-10-09T08:54:00.513015641Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:54:00.513018151Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.513020631Z [err]          update, application, handler_check_result, context
+2026-10-09T08:54:00.513023031Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.513025521Z [err]      )
+2026-10-09T08:54:00.513028491Z [err]      ^
+2026-10-09T08:54:00.513030941Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:54:00.513033421Z [err]      return await self.callback(update, context)
+2026-10-09T08:54:00.513035811Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.513038411Z [err]    File "/app/bot.py", line 719, in cb_handler
+2026-10-09T08:54:00.513041141Z [err]      return await cmd_start(update, context)
+2026-10-09T08:54:00.513043911Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.513046351Z [err]    File "/app/bot.py", line 564, in cmd_start
+2026-10-09T08:54:00.513048651Z [err]      await context.bot.send_message(update.effective_chat.id, text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:54:00.513051481Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:54:00.513054221Z [err]      return await super().send_message(
+2026-10-09T08:54:00.513057371Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.513060911Z [err]      ...<23 lines>...
+2026-10-09T08:54:00.513063261Z [err]      )
+2026-10-09T08:54:00.513065651Z [err]      ^
+2026-10-09T08:54:00.513067961Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:54:00.513070571Z [err]      return await self._send_message(
+2026-10-09T08:54:00.514444257Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.514451107Z [err]      ...<21 lines>...
+2026-10-09T08:54:00.514456497Z [err]      )
+2026-10-09T08:54:00.514468567Z [err]      ^
+2026-10-09T08:54:00.514472477Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:54:00.514477277Z [err]      result = await super()._send_message(
+2026-10-09T08:54:00.514481207Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.514484717Z [err]      ...<23 lines>...
+2026-10-09T08:54:00.514488167Z [err]      )
+2026-10-09T08:54:00.514491957Z [err]      ^
+2026-10-09T08:54:00.514495437Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:54:00.514498927Z [err]      result = await self._post(
+2026-10-09T08:54:00.514502567Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.514505837Z [err]      ...<7 lines>...
+2026-10-09T08:54:00.514509637Z [err]      )
+2026-10-09T08:54:00.514512767Z [err]      ^
+2026-10-09T08:54:00.514516437Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:54:00.514520117Z [err]      return await self._do_post(
+2026-10-09T08:54:00.514523087Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.514527147Z [err]      ...<6 lines>...
+2026-10-09T08:54:00.514530127Z [err]      )
+2026-10-09T08:54:00.514533286Z [err]      ^
+2026-10-09T08:54:00.514536996Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:54:00.514539986Z [err]      return await super()._do_post(
+2026-10-09T08:54:00.514543056Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.514546356Z [err]      ...<6 lines>...
+2026-10-09T08:54:00.514550276Z [err]      )
+2026-10-09T08:54:00.514554586Z [err]      ^
+2026-10-09T08:54:00.514934952Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:54:00.514938162Z [err]      result = await request.post(
+2026-10-09T08:54:00.514941012Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.514944252Z [err]      ...<6 lines>...
+2026-10-09T08:54:00.514947582Z [err]      )
+2026-10-09T08:54:00.514949902Z [err]      ^
+2026-10-09T08:54:00.514952352Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:54:00.514954632Z [err]      result = await self._request_wrapper(
+2026-10-09T08:54:00.514956872Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:00.514959152Z [err]      ...<7 lines>...
+2026-10-09T08:54:00.514961572Z [err]      )
+2026-10-09T08:54:00.514964192Z [err]      ^
+2026-10-09T08:54:00.514967512Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:54:00.514970102Z [err]      raise exception
+2026-10-09T08:54:00.514972452Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:54:03.202619608Z [err]  2026-10-09 08:54:03,193 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:54:03.202623518Z [err]  Traceback (most recent call last):
+2026-10-09T08:54:03.202627068Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:54:03.202631128Z [err]      await coroutine
+2026-10-09T08:54:03.202635158Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:54:03.202638518Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:54:03.202642918Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.202647498Z [err]          update, application, handler_check_result, context
+2026-10-09T08:54:03.202650778Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.202654408Z [err]      )
+2026-10-09T08:54:03.202657569Z [err]      ^
+2026-10-09T08:54:03.202660579Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:54:03.202664999Z [err]      return await self.callback(update, context)
+2026-10-09T08:54:03.202668479Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.202671909Z [err]    File "/app/bot.py", line 559, in cmd_start
+2026-10-09T08:54:03.202675349Z [err]      await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:54:03.202678949Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 2228, in reply_text
+2026-10-09T08:54:03.202682469Z [err]      return await self.get_bot().send_message(
+2026-10-09T08:54:03.202685859Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.202689849Z [err]      ...<21 lines>...
+2026-10-09T08:54:03.202693819Z [err]      )
+2026-10-09T08:54:03.206513700Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:54:03.206522020Z [err]      result = await self._post(
+2026-10-09T08:54:03.206526650Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206530400Z [err]      ...<7 lines>...
+2026-10-09T08:54:03.206534150Z [err]      )
+2026-10-09T08:54:03.206537670Z [err]      ^
+2026-10-09T08:54:03.206541590Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:54:03.206549630Z [err]      ^
+2026-10-09T08:54:03.206553600Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:54:03.206557450Z [err]      return await super().send_message(
+2026-10-09T08:54:03.206561140Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206565430Z [err]      ...<23 lines>...
+2026-10-09T08:54:03.206569040Z [err]      )
+2026-10-09T08:54:03.206572250Z [err]      ^
+2026-10-09T08:54:03.206575980Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:54:03.206579410Z [err]      return await self._send_message(
+2026-10-09T08:54:03.206583130Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206586909Z [err]      ...<21 lines>...
+2026-10-09T08:54:03.206590529Z [err]      )
+2026-10-09T08:54:03.206594479Z [err]      ^
+2026-10-09T08:54:03.206597949Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:54:03.206601439Z [err]      result = await super()._send_message(
+2026-10-09T08:54:03.206604829Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206607849Z [err]      ...<23 lines>...
+2026-10-09T08:54:03.206611249Z [err]      )
+2026-10-09T08:54:03.206614719Z [err]      ^
+2026-10-09T08:54:03.206877306Z [err]      return await self._do_post(
+2026-10-09T08:54:03.206882166Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206885716Z [err]      ...<6 lines>...
+2026-10-09T08:54:03.206889416Z [err]      )
+2026-10-09T08:54:03.206892786Z [err]      ^
+2026-10-09T08:54:03.206896496Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:54:03.206900596Z [err]      return await super()._do_post(
+2026-10-09T08:54:03.206904636Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206909396Z [err]      ...<6 lines>...
+2026-10-09T08:54:03.206913356Z [err]      )
+2026-10-09T08:54:03.206917436Z [err]      ^
+2026-10-09T08:54:03.206920926Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:54:03.206924356Z [err]      result = await request.post(
+2026-10-09T08:54:03.206929536Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206932846Z [err]      ...<6 lines>...
+2026-10-09T08:54:03.206936306Z [err]      )
+2026-10-09T08:54:03.206939506Z [err]      ^
+2026-10-09T08:54:03.206942906Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:54:03.206946616Z [err]      result = await self._request_wrapper(
+2026-10-09T08:54:03.206950225Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:03.206953835Z [err]      ...<7 lines>...
+2026-10-09T08:54:03.206957285Z [err]      )
+2026-10-09T08:54:03.206961765Z [err]      ^
+2026-10-09T08:54:03.206965535Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:54:03.206969305Z [err]      raise exception
+2026-10-09T08:54:03.206973105Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:54:23.209540742Z [err]  2026-10-09 08:54:13,810 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:54:23.209547102Z [err]  Traceback (most recent call last):
+2026-10-09T08:54:23.209550802Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:54:23.209555252Z [err]      await coroutine
+2026-10-09T08:54:23.209559162Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:54:23.209563252Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:54:23.209567252Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.209570792Z [err]          update, application, handler_check_result, context
+2026-10-09T08:54:23.209574582Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.209578821Z [err]      )
+2026-10-09T08:54:23.209582171Z [err]      ^
+2026-10-09T08:54:23.209585782Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:54:23.209589032Z [err]      return await self.callback(update, context)
+2026-10-09T08:54:23.209592592Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.209595972Z [err]    File "/app/bot.py", line 559, in cmd_start
+2026-10-09T08:54:23.209599492Z [err]      await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:54:23.209602812Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 2228, in reply_text
+2026-10-09T08:54:23.209606532Z [err]      return await self.get_bot().send_message(
+2026-10-09T08:54:23.209609772Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.209613402Z [err]      ...<21 lines>...
+2026-10-09T08:54:23.209617302Z [err]      )
+2026-10-09T08:54:23.210765960Z [err]      ^
+2026-10-09T08:54:23.210766890Z [err]      result = await self._post(
+2026-10-09T08:54:23.210772000Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.210772880Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:54:23.210776390Z [err]      ...<7 lines>...
+2026-10-09T08:54:23.210776810Z [err]      return await super().send_message(
+2026-10-09T08:54:23.210780130Z [err]      )
+2026-10-09T08:54:23.210781020Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.210785130Z [err]      ...<23 lines>...
+2026-10-09T08:54:23.210785200Z [err]      ^
+2026-10-09T08:54:23.210789040Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:54:23.210789600Z [err]      )
+2026-10-09T08:54:23.210793120Z [err]      ^
+2026-10-09T08:54:23.210796880Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:54:23.210801010Z [err]      return await self._send_message(
+2026-10-09T08:54:23.210805120Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.210809200Z [err]      ...<21 lines>...
+2026-10-09T08:54:23.210812830Z [err]      )
+2026-10-09T08:54:23.210816290Z [err]      ^
+2026-10-09T08:54:23.210819560Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:54:23.210823020Z [err]      result = await super()._send_message(
+2026-10-09T08:54:23.210826730Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.210830280Z [err]      ...<23 lines>...
+2026-10-09T08:54:23.210834820Z [err]      )
+2026-10-09T08:54:23.210838290Z [err]      ^
+2026-10-09T08:54:23.210842040Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:54:23.214692371Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.214698961Z [err]      ...<6 lines>...
+2026-10-09T08:54:23.214699231Z [err]      return await self._do_post(
+2026-10-09T08:54:23.214701951Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.214703491Z [err]      )
+2026-10-09T08:54:23.214704921Z [err]      ...<6 lines>...
+2026-10-09T08:54:23.214708011Z [err]      ^
+2026-10-09T08:54:23.214709881Z [err]      )
+2026-10-09T08:54:23.214711831Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:54:23.214712901Z [err]      ^
+2026-10-09T08:54:23.214715641Z [err]      result = await request.post(
+2026-10-09T08:54:23.214716081Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:54:23.214718511Z [err]      return await super()._do_post(
+2026-10-09T08:54:23.214725021Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.214728421Z [err]      ...<6 lines>...
+2026-10-09T08:54:23.214731591Z [err]      )
+2026-10-09T08:54:23.214735361Z [err]      ^
+2026-10-09T08:54:23.214738991Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:54:23.214742371Z [err]      result = await self._request_wrapper(
+2026-10-09T08:54:23.214745351Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:54:23.214748731Z [err]      ...<7 lines>...
+2026-10-09T08:54:23.214752111Z [err]      )
+2026-10-09T08:54:23.214755831Z [err]      ^
+2026-10-09T08:54:23.214759640Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:54:23.214763860Z [err]      raise exception
+2026-10-09T08:54:23.214767140Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:55:13.301492635Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 1763, in edit_message_text
+2026-10-09T08:55:13.301499515Z [err]      return await super().edit_message_text(
+2026-10-09T08:55:13.301504245Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.301507975Z [err]      ...<15 lines>...
+2026-10-09T08:55:13.301512505Z [err]      )
+2026-10-09T08:55:13.301516595Z [err]      ^
+2026-10-09T08:55:13.301520205Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 4465, in edit_message_text
+2026-10-09T08:55:13.301530945Z [err]      await update.callback_query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:55:13.301543465Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_callbackquery.py", line 269, in edit_message_text
+2026-10-09T08:55:13.301551024Z [err]      return await self._get_message().edit_text(
+2026-10-09T08:55:13.301555894Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.301561424Z [err]      ...<11 lines>...
+2026-10-09T08:55:13.301566414Z [err]      )
+2026-10-09T08:55:13.301570574Z [err]      ^
+2026-10-09T08:55:13.301576074Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 4473, in edit_text
+2026-10-09T08:55:13.301577264Z [err]  2026-10-09 08:55:05,562 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:55:13.301584364Z [err]      return await self.get_bot().edit_message_text(
+2026-10-09T08:55:13.301584524Z [err]  Traceback (most recent call last):
+2026-10-09T08:55:13.301591764Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.301592124Z [err]    File "/app/bot.py", line 562, in cmd_start
+2026-10-09T08:55:13.301597044Z [err]      ...<15 lines>...
+2026-10-09T08:55:13.301600794Z [err]      )
+2026-10-09T08:55:13.301604084Z [err]      ^
+2026-10-09T08:55:13.302697523Z [err]      ^
+2026-10-09T08:55:13.302705553Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:55:13.302709923Z [err]      return await super()._do_post(
+2026-10-09T08:55:13.302713973Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.302719173Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.302725002Z [err]      return await self._send_message(
+2026-10-09T08:55:13.302729422Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.302733462Z [err]      ...<11 lines>...
+2026-10-09T08:55:13.302737412Z [err]      )
+2026-10-09T08:55:13.302741653Z [err]      ^
+2026-10-09T08:55:13.302745453Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:55:13.302748773Z [err]      result = await super()._send_message(
+2026-10-09T08:55:13.302752623Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.302756253Z [err]      ...<23 lines>...
+2026-10-09T08:55:13.302759743Z [err]      )
+2026-10-09T08:55:13.302763453Z [err]      ^
+2026-10-09T08:55:13.302767063Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:55:13.302770753Z [err]      result = await self._post(
+2026-10-09T08:55:13.302774203Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.302777503Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.302781733Z [err]      )
+2026-10-09T08:55:13.302785283Z [err]      ^
+2026-10-09T08:55:13.302789073Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:55:13.302792613Z [err]      return await self._do_post(
+2026-10-09T08:55:13.302795883Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.302799573Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.302803103Z [err]      )
+2026-10-09T08:55:13.303045530Z [err]      )
+2026-10-09T08:55:13.303048610Z [err]      ^
+2026-10-09T08:55:13.303051580Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:55:13.303054090Z [err]      result = await request.post(
+2026-10-09T08:55:13.303056900Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.303059770Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.303062380Z [err]      )
+2026-10-09T08:55:13.303065140Z [err]      ^
+2026-10-09T08:55:13.303067570Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:55:13.303069810Z [err]      result = await self._request_wrapper(
+2026-10-09T08:55:13.303072260Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.303074780Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.303076920Z [err]      )
+2026-10-09T08:55:13.303079500Z [err]      ^
+2026-10-09T08:55:13.303082010Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:55:13.303085549Z [err]      raise exception
+2026-10-09T08:55:13.303088279Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:55:13.303090739Z [err]  
+2026-10-09T08:55:13.303093399Z [err]  During handling of the above exception, another exception occurred:
+2026-10-09T08:55:13.303095619Z [err]  
+2026-10-09T08:55:13.303098179Z [err]  Traceback (most recent call last):
+2026-10-09T08:55:13.303101269Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:55:13.303104009Z [err]      await coroutine
+2026-10-09T08:55:13.303106479Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:55:13.304120109Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:55:13.304120839Z [err]      ^
+2026-10-09T08:55:13.304131169Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.304132209Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:55:13.304136159Z [err]          update, application, handler_check_result, context
+2026-10-09T08:55:13.304140429Z [err]      return await self._send_message(
+2026-10-09T08:55:13.304143409Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.304146909Z [err]      )
+2026-10-09T08:55:13.304150069Z [err]      ^
+2026-10-09T08:55:13.304153419Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:55:13.304157669Z [err]      return await self.callback(update, context)
+2026-10-09T08:55:13.304161639Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.304165839Z [err]    File "/app/bot.py", line 719, in cb_handler
+2026-10-09T08:55:13.304175608Z [err]      return await cmd_start(update, context)
+2026-10-09T08:55:13.304179618Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.304183418Z [err]    File "/app/bot.py", line 564, in cmd_start
+2026-10-09T08:55:13.304186878Z [err]      await context.bot.send_message(update.effective_chat.id, text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:55:13.304190948Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:55:13.304194648Z [err]      return await super().send_message(
+2026-10-09T08:55:13.304198378Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.304203298Z [err]      ...<23 lines>...
+2026-10-09T08:55:13.304207118Z [err]      )
+2026-10-09T08:55:13.305361037Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.305364137Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.305372037Z [err]      )
+2026-10-09T08:55:13.305372457Z [err]      ...<21 lines>...
+2026-10-09T08:55:13.305378687Z [err]      )
+2026-10-09T08:55:13.305381787Z [err]      ^
+2026-10-09T08:55:13.305386247Z [err]      ^
+2026-10-09T08:55:13.305389477Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:55:13.305392387Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:55:13.305397007Z [err]      return await super()._do_post(
+2026-10-09T08:55:13.305399637Z [err]      result = await super()._send_message(
+2026-10-09T08:55:13.305406067Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.305406257Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.305413617Z [err]      ...<23 lines>...
+2026-10-09T08:55:13.305413847Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.305421177Z [err]      )
+2026-10-09T08:55:13.305421367Z [err]      )
+2026-10-09T08:55:13.305429826Z [err]      ^
+2026-10-09T08:55:13.305429956Z [err]      ^
+2026-10-09T08:55:13.305435146Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:55:13.305437766Z [err]      result = await self._post(
+2026-10-09T08:55:13.305441816Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.305444426Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.305447336Z [err]      )
+2026-10-09T08:55:13.305450776Z [err]      ^
+2026-10-09T08:55:13.305454536Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:55:13.305458196Z [err]      return await self._do_post(
+2026-10-09T08:55:13.305462506Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.306265388Z [err]  Traceback (most recent call last):
+2026-10-09T08:55:13.306271278Z [err]    File "/app/bot.py", line 562, in cmd_start
+2026-10-09T08:55:13.306278228Z [err]      await update.callback_query.edit_message_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:55:13.306278958Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:55:13.306283758Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_callbackquery.py", line 269, in edit_message_text
+2026-10-09T08:55:13.306286778Z [err]      result = await request.post(
+2026-10-09T08:55:13.306291778Z [err]      return await self._get_message().edit_text(
+2026-10-09T08:55:13.306293288Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.306299608Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.306299798Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.306304838Z [err]      )
+2026-10-09T08:55:13.306307648Z [err]      ^
+2026-10-09T08:55:13.306310588Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:55:13.306313258Z [err]      result = await self._request_wrapper(
+2026-10-09T08:55:13.306316478Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.306319588Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.306322388Z [err]      )
+2026-10-09T08:55:13.306325278Z [err]      ^
+2026-10-09T08:55:13.306327848Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:55:13.306330628Z [err]      raise exception
+2026-10-09T08:55:13.306333588Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:55:13.306336848Z [err]  2026-10-09 08:55:11,920 [ERROR] No error handlers are registered, logging exception.
+2026-10-09T08:55:13.307123470Z [err]      ...<11 lines>...
+2026-10-09T08:55:13.307129170Z [err]      )
+2026-10-09T08:55:13.307133350Z [err]      ^
+2026-10-09T08:55:13.307136630Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.307140010Z [err]      )
+2026-10-09T08:55:13.307145190Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_message.py", line 4473, in edit_text
+2026-10-09T08:55:13.307145670Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 4465, in edit_message_text
+2026-10-09T08:55:13.307149320Z [err]      ...<15 lines>...
+2026-10-09T08:55:13.307149470Z [err]      ^
+2026-10-09T08:55:13.307154810Z [err]      return await self.get_bot().edit_message_text(
+2026-10-09T08:55:13.307158110Z [err]      return await self._send_message(
+2026-10-09T08:55:13.307161799Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:55:13.307162169Z [err]      )
+2026-10-09T08:55:13.307167089Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.307171759Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.307172839Z [err]      result = await super()._send_message(
+2026-10-09T08:55:13.307173779Z [err]      ^
+2026-10-09T08:55:13.307177789Z [err]      ...<15 lines>...
+2026-10-09T08:55:13.307185169Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.307186249Z [err]      ...<11 lines>...
+2026-10-09T08:55:13.307189269Z [err]      )
+2026-10-09T08:55:13.307194899Z [err]      ...<23 lines>...
+2026-10-09T08:55:13.307197969Z [err]      )
+2026-10-09T08:55:13.307200209Z [err]      ^
+2026-10-09T08:55:13.307204819Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 1763, in edit_message_text
+2026-10-09T08:55:13.307208319Z [err]      return await super().edit_message_text(
+2026-10-09T08:55:13.308400747Z [err]      )
+2026-10-09T08:55:13.308405497Z [err]      ^
+2026-10-09T08:55:13.308411547Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:55:13.308413987Z [err]      ^
+2026-10-09T08:55:13.308419057Z [err]      result = await self._request_wrapper(
+2026-10-09T08:55:13.308423817Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:55:13.308428007Z [err]      result = await self._post(
+2026-10-09T08:55:13.308429887Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.308431687Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.308435347Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.308440256Z [err]      )
+2026-10-09T08:55:13.308440436Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.308444216Z [err]      ^
+2026-10-09T08:55:13.308446856Z [err]      )
+2026-10-09T08:55:13.308448496Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:55:13.308452706Z [err]      return await self._do_post(
+2026-10-09T08:55:13.308452726Z [err]      ^
+2026-10-09T08:55:13.308456396Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:55:13.308456666Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.308460686Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.308461136Z [err]      result = await request.post(
+2026-10-09T08:55:13.308464376Z [err]      )
+2026-10-09T08:55:13.308465946Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.308468826Z [err]      ^
+2026-10-09T08:55:13.308470176Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.308472526Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:55:13.308476316Z [err]      return await super()._do_post(
+2026-10-09T08:55:13.309519846Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.309524326Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.309527746Z [err]      )
+2026-10-09T08:55:13.309529286Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.309532215Z [err]      ^
+2026-10-09T08:55:13.309538545Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:55:13.309540105Z [err]  
+2026-10-09T08:55:13.309545245Z [err]      raise exception
+2026-10-09T08:55:13.309551555Z [err]  Traceback (most recent call last):
+2026-10-09T08:55:13.309553795Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
+2026-10-09T08:55:13.309560975Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_application.py", line 1315, in process_update
+2026-10-09T08:55:13.309563875Z [err]  
+2026-10-09T08:55:13.309568535Z [err]      await coroutine
+2026-10-09T08:55:13.309573745Z [err]  During handling of the above exception, another exception occurred:
+2026-10-09T08:55:13.309576795Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/conversationhandler.py", line 841, in handle_update
+2026-10-09T08:55:13.309581655Z [err]      new_state: object = await handler.handle_update(
+2026-10-09T08:55:13.309585405Z [err]                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.309589515Z [err]          update, application, handler_check_result, context
+2026-10-09T08:55:13.309593735Z [err]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.309597475Z [err]      )
+2026-10-09T08:55:13.309600905Z [err]      ^
+2026-10-09T08:55:13.309604095Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_handlers/basehandler.py", line 159, in handle_update
+2026-10-09T08:55:13.309607515Z [err]      return await self.callback(update, context)
+2026-10-09T08:55:13.310925742Z [err]    File "/app/bot.py", line 719, in cb_handler
+2026-10-09T08:55:13.310929232Z [err]      return await cmd_start(update, context)
+2026-10-09T08:55:13.310932982Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.310936382Z [err]    File "/app/bot.py", line 564, in cmd_start
+2026-10-09T08:55:13.310940092Z [err]      await context.bot.send_message(update.effective_chat.id, text, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+2026-10-09T08:55:13.310943742Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 3150, in send_message
+2026-10-09T08:55:13.310947262Z [err]      return await super().send_message(
+2026-10-09T08:55:13.310950432Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.310953782Z [err]      ...<23 lines>...
+2026-10-09T08:55:13.310957212Z [err]      )
+2026-10-09T08:55:13.310960592Z [err]      ^
+2026-10-09T08:55:13.310963952Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 1138, in send_message
+2026-10-09T08:55:13.310967292Z [err]      return await self._send_message(
+2026-10-09T08:55:13.310970562Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.310974092Z [err]      ...<21 lines>...
+2026-10-09T08:55:13.310977421Z [err]      )
+2026-10-09T08:55:13.310980201Z [err]      ^
+2026-10-09T08:55:13.310983261Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 638, in _send_message
+2026-10-09T08:55:13.310986371Z [err]      result = await super()._send_message(
+2026-10-09T08:55:13.310989781Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.310993251Z [err]      ...<23 lines>...
+2026-10-09T08:55:13.310996081Z [err]      )
+2026-10-09T08:55:13.310999111Z [err]      ^
+2026-10-09T08:55:13.311001931Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 828, in _send_message
+2026-10-09T08:55:13.312401288Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.312419637Z [err]      result = await self._post(
+2026-10-09T08:55:13.312422657Z [err]               ^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.312425547Z [err]      ...<7 lines>...
+2026-10-09T08:55:13.312428317Z [err]      )
+2026-10-09T08:55:13.312431497Z [err]      ^
+2026-10-09T08:55:13.312434017Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 712, in _post
+2026-10-09T08:55:13.312436927Z [err]      return await self._do_post(
+2026-10-09T08:55:13.312439747Z [err]             ^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.312442277Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.312445747Z [err]      )
+2026-10-09T08:55:13.312448557Z [err]      ^
+2026-10-09T08:55:13.312451277Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 378, in _do_post
+2026-10-09T08:55:13.312454597Z [err]      return await super()._do_post(
+2026-10-09T08:55:13.312457307Z [err]             ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.312460197Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.312463367Z [err]      )
+2026-10-09T08:55:13.312467437Z [err]      ^
+2026-10-09T08:55:13.312470347Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/_bot.py", line 741, in _do_post
+2026-10-09T08:55:13.312473057Z [err]      result = await request.post(
+2026-10-09T08:55:13.312475827Z [err]               ^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.312478567Z [err]      ...<6 lines>...
+2026-10-09T08:55:13.312481747Z [err]      )
+2026-10-09T08:55:13.312484217Z [err]      ^
+2026-10-09T08:55:13.312487177Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 198, in post
+2026-10-09T08:55:13.312489797Z [err]      result = await self._request_wrapper(
+2026-10-09T08:55:13.312492747Z [err]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-09T08:55:13.313248799Z [err]      )
+2026-10-09T08:55:13.313254839Z [err]      ^
+2026-10-09T08:55:13.313258539Z [err]    File "/app/.venv/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 375, in _request_wrapper
+2026-10-09T08:55:13.313263069Z [err]      raise exception
+2026-10-09T08:55:13.313267079Z [err]  telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 57
