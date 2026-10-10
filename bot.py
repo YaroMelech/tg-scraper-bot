@@ -64,8 +64,22 @@ _raw_admins = cfg.get("telegram", "admin_ids", fallback="").strip()
 ADMIN_IDS: set[int] = {int(x.strip()) for x in _raw_admins.split(",") if x.strip().isdigit()}
 
 # ── Global State ───────────────────────────────────────────────────────────────
+
+def create_client(session_path: str) -> TelegramClient:
+    """Emulate Official Android Telegram App to bypass strict spam filters."""
+    return TelegramClient(
+        session_path,
+        API_ID,
+        API_HASH,
+        device_model="Samsung Galaxy S23 Ultra",
+        system_version="Android 13.0",
+        app_version="10.14.5",
+        lang_code="en",
+        system_lang_code="en-US"
+    )
+
 state = {
-    "client":       TelegramClient(str(BASE_DIR / DEFAULT_SESSION), API_ID, API_HASH),
+    "client":       create_client(str(BASE_DIR / DEFAULT_SESSION)),
     "session_name": DEFAULT_SESSION,
     "kill_switch":  False,
 }
@@ -77,7 +91,7 @@ async def switch_session(name: str):
     c = state["client"]
     if c.is_connected():
         await c.disconnect()
-    state["client"]       = TelegramClient(str(BASE_DIR / name), API_ID, API_HASH)
+    state["client"]       = create_client(str(BASE_DIR / name))
     state["session_name"] = name
     await state["client"].connect()
 
@@ -1031,7 +1045,7 @@ async def recv_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
     phone = update.message.text.strip()
     msg   = await update.message.reply_text("📲 Sending code to Telegram…", parse_mode=ParseMode.HTML)
     tmp_s = re.sub(r"[^\w]", "_", phone)
-    tmp_c = TelegramClient(str(BASE_DIR / f"tmp_{tmp_s}"), API_ID, API_HASH)
+    tmp_c = create_client(str(BASE_DIR / f"tmp_{tmp_s}"))
     try:
         await tmp_c.connect()
         r = await tmp_c.send_code_request(phone)
